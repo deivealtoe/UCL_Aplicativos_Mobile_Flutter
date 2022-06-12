@@ -1,6 +1,6 @@
 {
-    "name": "projeto_mobile",
-    "short_name": "projeto_mobile",
+    "name": "app_pedrapepeltesoura",
+    "short_name": "app_pedrapepeltesoura",
     "start_url": ".",
     "display": "standalone",
     "background_color": "#0175C2",

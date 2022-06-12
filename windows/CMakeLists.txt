@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 3.14)
-project(projeto_mobile LANGUAGES CXX)
+project(app_pedrapepeltesoura LANGUAGES CXX)
 
-set(BINARY_NAME "projeto_mobile")
+set(BINARY_NAME "app_pedrapepeltesoura")
 
 cmake_policy(SET CMP0063 NEW)
 
