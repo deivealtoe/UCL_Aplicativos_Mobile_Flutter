@@ -1,0 +1,10 @@
+Image.asset('assets/title.png', fit: BoxFit.cover),
+
+
+title: const Text(
+                "Salon Manager",
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                    fontFamily: 'Josefin Sans - 600',
+                    color: Color.fromRGBO(255, 135, 183, 1)),
+              ),
