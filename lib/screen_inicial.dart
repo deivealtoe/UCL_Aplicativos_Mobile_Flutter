@@ -73,8 +73,11 @@ class Inicial extends StatelessWidget {
               width: double.infinity,
               child: ElevatedButton.icon(
                   onPressed: () {
-                    print(Form.of(context));
-                    Form.of(context)?.validate();
+                    Navigator.of(context).push(
+                      MaterialPageRoute(builder: (context) => Login()),
+                    );
+                    //print(Form.of(context));
+                    //Form.of(context)?.validate();
                   },
                   //icon: Icon(Icons.password_rounded),
                   icon: Icon(Icons.home),

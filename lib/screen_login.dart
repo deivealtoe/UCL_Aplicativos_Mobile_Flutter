@@ -12,6 +12,8 @@ class _Login extends State<Login> {
 } */
 
 class Login extends StatelessWidget {
+  late final String email;
+  late final String senha;
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -64,6 +66,7 @@ class Login extends StatelessWidget {
                 SizedBox(
                   height: 40,
                   child: CustomTextField(
+                    //type: email,
                     label: 'Insira seu e-mail',
                   ),
                 ),
@@ -71,6 +74,7 @@ class Login extends StatelessWidget {
                 SizedBox(
                   height: 40,
                   child: CustomTextField(
+                    //type: senha,
                     label: 'Insira a sua senha',
                   ),
                 ),
@@ -100,8 +104,8 @@ class Login extends StatelessWidget {
                     //width: double.infinity,
                     child: ElevatedButton.icon(
                         onPressed: () {
-                          print(Form.of(context));
-                          Form.of(context)?.validate();
+                          //print(Form.of(context));
+                          //Form.of(context)?.validate();
                         },
                         icon: Icon(Icons.password_rounded),
                         label: Text('Esqueci minha senha'),
@@ -119,8 +123,12 @@ class Login extends StatelessWidget {
                     width: double.infinity,
                     child: ElevatedButton.icon(
                         onPressed: () {
-                          print(Form.of(context));
-                          Form.of(context)?.validate();
+                          //print(Form.of(context));
+                          //Form.of(context)?.validate();
+                          Navigator.of(context).push(
+                            MaterialPageRoute(
+                                builder: (context) => Cadastros()),
+                          );
 
                           // if ('Insira seu e-mail' == null) {}
                         },

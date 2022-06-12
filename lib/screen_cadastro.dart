@@ -1,8 +1,13 @@
+import 'package:app_pedrapepeltesoura/screen_inicial.dart';
 import 'package:flutter/material.dart';
 import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
+import 'screen_login.dart';
+
+//String email;
 
 class _Cadastro extends State<Cadastro> {
   final controller = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp();
@@ -15,6 +20,17 @@ class Cadastro extends StatefulWidget {
 }
 
 class Cadastros extends StatelessWidget {
+  late final String cnpj;
+  late final String razaosocial;
+  late final String estado;
+  late final String cidade;
+  late final String bairro;
+  late final String rua;
+  late final String numero;
+  late final String complemento;
+  late final String email;
+  late final String senha;
+  late final String repetirsenha;
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -32,7 +48,11 @@ class Cadastros extends StatelessWidget {
               ),
 
               leading: IconButton(
-                onPressed: () {},
+                onPressed: () {
+                  Navigator.of(context).push(
+                    MaterialPageRoute(builder: (context) => Inicial()),
+                  );
+                },
                 icon: Icon(Icons.home),
                 iconSize: 50,
                 color: Color.fromRGBO(254, 136, 183, 1),
@@ -58,6 +78,7 @@ class Cadastros extends StatelessWidget {
                 SizedBox(
                   height: 40,
                   child: CustomTextField(
+                    //type: cnpj,
                     label: 'CNPJ',
                     icon: Icons.person,
                   ),
@@ -66,6 +87,7 @@ class Cadastros extends StatelessWidget {
                 SizedBox(
                   height: 40,
                   child: CustomTextField(
+                    //type: razaosocial,
                     label: 'Razão Social',
                   ),
                 ),
@@ -81,6 +103,7 @@ class Cadastros extends StatelessWidget {
                 SizedBox(
                   height: 40,
                   child: CustomTextField(
+                    //type: estado,
                     label: 'Estado',
                   ),
                 ),
@@ -88,6 +111,7 @@ class Cadastros extends StatelessWidget {
                 SizedBox(
                   height: 40,
                   child: CustomTextField(
+                    //type: cidade,
                     label: 'Cidade',
                   ),
                 ),
@@ -95,6 +119,7 @@ class Cadastros extends StatelessWidget {
                 SizedBox(
                   height: 40,
                   child: CustomTextField(
+                    //type: bairro,
                     label: 'Bairro',
                   ),
                 ),
@@ -102,6 +127,7 @@ class Cadastros extends StatelessWidget {
                 SizedBox(
                   height: 40,
                   child: CustomTextField(
+                    //type: numero,
                     label: 'Número',
                   ),
                 ),
@@ -109,6 +135,7 @@ class Cadastros extends StatelessWidget {
                 SizedBox(
                   height: 40,
                   child: CustomTextField(
+                    //type: complemento,
                     label: 'Complemento',
                   ),
                 ),
@@ -116,6 +143,7 @@ class Cadastros extends StatelessWidget {
                 SizedBox(
                   height: 40,
                   child: CustomTextField(
+                    //type: rua,
                     label: 'Nome da rua',
                   ),
                 ),
@@ -131,6 +159,7 @@ class Cadastros extends StatelessWidget {
                 SizedBox(
                   height: 40,
                   child: CustomTextField(
+                    //type: email,
                     label: 'E-mail',
                   ),
                 ),
@@ -138,6 +167,7 @@ class Cadastros extends StatelessWidget {
                 SizedBox(
                   height: 40,
                   child: CustomTextField(
+                    //type: senha,
                     label: 'Senha',
                   ),
                 ),
@@ -145,6 +175,7 @@ class Cadastros extends StatelessWidget {
                 SizedBox(
                   height: 40,
                   child: CustomTextField(
+                    //type: repetirsenha,
                     label: 'Repita a senha',
                   ),
                 ),
@@ -176,6 +207,7 @@ class Cadastros extends StatelessWidget {
 class CustomTextField extends StatelessWidget {
   final String label;
   final IconData? icon;
+  //final String type;
   //final MaskTextInputFormatter mascara;
 
   const CustomTextField({Key? key, required this.label, this.icon})
@@ -184,13 +216,24 @@ class CustomTextField extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return TextFormField(
+      /*onChanged: (text) {
+         = text;
+        //text = type;
+      },*/
       validator: (text) {
         if (text == null || text.isEmpty) {
           return 'É necessário preencher todos os campos';
+        } else {
+          Navigator.of(context).push(
+            MaterialPageRoute(builder: (context) => Login()),
+          );
         }
       },
       //inputFormatters: [mask],
       cursorHeight: 15,
+      /*onChanged: (text) {
+        type = text;
+      },*/
       decoration: InputDecoration(
           labelText: label,
           prefixIcon: icon == null ? null : Icon(icon),
