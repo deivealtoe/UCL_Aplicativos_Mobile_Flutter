@@ -7,4 +7,3 @@ title: const Text(
                 style: TextStyle(
                     fontFamily: 'Josefin Sans - 600',
                     color: Color.fromRGBO(255, 135, 183, 1)),
-              ),
