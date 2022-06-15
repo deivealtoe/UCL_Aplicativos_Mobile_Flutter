@@ -1,3 +1,4 @@
+import 'package:app_pedrapepeltesoura/screen_agenda.dart';
 import 'package:flutter/material.dart';
 import 'screen_cadastro.dart';
 import 'screen_inicial.dart';
@@ -85,8 +86,12 @@ class Login extends StatelessWidget {
                     width: double.infinity,
                     child: ElevatedButton.icon(
                         onPressed: () {
-                          print(Form.of(context));
-                          Form.of(context)?.validate();
+                          /*print(Form.of(context));
+                          Form.of(context)?.validate();*/
+                          Navigator.of(context).push(
+                            MaterialPageRoute(builder: (context) => ScreenAgenda()
+                            ),
+                          );
                         },
                         icon: Icon(Icons.login),
                         label: Text('Logar'),
