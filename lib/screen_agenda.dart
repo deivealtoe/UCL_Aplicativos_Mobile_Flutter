@@ -98,7 +98,26 @@ class _ScreenAgendaState extends State<ScreenAgenda> {
           ],
         ),
         ),
-        MyButton(label: " Marcar Horário", onTap: ()=>Get.to(ScreenDataHora()))
+       // MyButton(label: " Marcar Horário", onTap: ()=>Get.to(ScreenDataHora()))
+       Builder(builder: (context) {
+          return SizedBox(
+            width: double.infinity,
+            child: ElevatedButton.icon(
+                onPressed: () {
+                  /*print(Form.of(context));
+                  Form.of(context)?.validate();*/
+                  Navigator.of(context).push(
+                    MaterialPageRoute(builder: (context) => ScreenDataHora()
+                    ),
+                  );
+                },
+                icon: Icon(Icons.login),
+                label: Text('Logar'),
+                style: ElevatedButton.styleFrom(
+                    primary: Color.fromRGBO(254, 136, 183, 1))),
+            // ROSE COLOR RGBO = (254, 136, 183, 1)
+          );
+        }),
       ],
     ),
   );
@@ -106,7 +125,7 @@ class _ScreenAgendaState extends State<ScreenAgenda> {
   _appBar(){
   return AppBar( 
     title: Image.asset(
-      'imagens/salonmanager.png',
+      'imagem/salonmanager.png',
       fit: BoxFit.cover,
       height: 100,
     ) , 
