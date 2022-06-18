@@ -8,24 +8,22 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
 import 'package:intl/locale.dart';
 
-class ScreenDataHora extends StatefulWidget {
-  const ScreenDataHora({Key? key}) : super(key: key);
+class DataHora extends StatefulWidget {
+  const DataHora({Key? key}) : super(key: key);
 
   @override
-  State<ScreenDataHora> createState() => _ScreenDataHoraState();
+  State<DataHora> createState() => _DataHoraState();
 }
 
-class _ScreenDataHoraState extends State<ScreenDataHora> {
-    
-  final TextEditingController _titleController = TextEditingController();  
+class _DataHoraState extends State<DataHora> {  
+  final TextEditingController _servController = TextEditingController(); 
   DateTime _selectedDate = DateTime.now();
   String _endTime="9:30  PM";
   String _startTime = DateFormat("hh:mm a").format(DateTime.now()).toString();
   int _selectedColor=0;
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: context.theme.backgroundColor,
+    return Scaffold(      
       appBar:_appBar(),      
       body: Container(
         padding: const EdgeInsets.only(left: 10, right: 10),
@@ -33,11 +31,12 @@ class _ScreenDataHoraState extends State<ScreenDataHora> {
           child: Column(
             children:[
                Text(
-              "Adicione horário",
+              "Adicione Horário",
               style: HeadingStyle,
 
             ),
-                MyInputField(title: "Serviço", hint: " Digite tipo de Serviço", controller: _titleController,),                             
+                MyInputField(title: " Serviço ", hint: " Digite o serviço ", controller: _servController,),              
+                
                 MyInputField(title: " Data ", hint: DateFormat.yMd('pt_BR').format(_selectedDate),
                   widget: IconButton(
                     icon: Icon(Icons.calendar_today_outlined),
@@ -96,32 +95,32 @@ class _ScreenDataHoraState extends State<ScreenDataHora> {
            ),
       ),
     );
-  }
-
- 
+  } 
   _validateDate(){
-    if(_titleController.text.isNotEmpty){        
+    if(_servController.text.isNotEmpty){       
       Get.back();
-    }else if(_titleController.text.isEmpty){
+    }else if(_servController.text.isEmpty){
       Get.snackbar("Obrigatorio", " Todos os campos são obrigatorios",
         snackPosition: SnackPosition.BOTTOM,
-        backgroundColor: Color.fromARGB(255, 79, 79, 79),
+        backgroundColor: appBarClr,
         colorText: Colors.red,
         icon: Icon(Icons.warning_amber_rounded)
       );
     }
 
-  }    
+  }
+
+
   _appBar(){
       return AppBar(
         title: Image.asset(
-          'imagens/salonmanager.png',
+          'imagem/salonmanager.png',
           fit: BoxFit.cover,
           height: 100,
         ) , 
         toolbarHeight: 100,
         centerTitle: true,  
-        backgroundColor: Color.fromARGB(255, 79, 79, 79),
+        backgroundColor: appBarClr,
         elevation: 0,
         leading: GestureDetector(
           onTap: (){
@@ -134,6 +133,7 @@ class _ScreenDataHoraState extends State<ScreenDataHora> {
         ),    
       );
     }
+
   _getDateFromUser()async{
         DateTime? _pickerDate = await showDatePicker(
           context: context, 

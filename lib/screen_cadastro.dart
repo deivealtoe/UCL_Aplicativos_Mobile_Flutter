@@ -1,187 +1,104 @@
-import 'package:app_pedrapepeltesoura/screen_inicial.dart';
+import 'dart:convert';
 import 'package:flutter/material.dart';
-import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
+import 'package:get/get.dart';
 import 'screen_login.dart';
+import 'ui/theme.dart';
+import 'widgets/input_field1.dart';
+import 'widgets/input_field_cep.dart';
 
-//String email;
-
-class _Cadastro extends State<Cadastro> {
-  final controller = TextEditingController();
-
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp();
-  }
-}
+import 'package:http/http.dart' as http;
 
 class Cadastro extends StatefulWidget {
+
+  const Cadastro ({Key? key}) : super(key: key);  
   @override
-  _Cadastro createState() => _Cadastro();
+  State<Cadastro> createState() => _Cadastro();
 }
 
-class Cadastros extends StatelessWidget {
-  late final String cnpj;
-  late final String razaosocial;
-  late final String estado;
-  late final String cidade;
-  late final String bairro;
-  late final String rua;
-  late final String numero;
-  late final String complemento;
-  late final String email;
-  late final String senha;
-  late final String repetirsenha;
+
+class _Cadastro extends State<Cadastro> {
+  TextEditingController cnpj =        new TextEditingController();
+  TextEditingController razaosocial = new TextEditingController();
+  TextEditingController _cep =         new TextEditingController();
+  TextEditingController _estado =      new TextEditingController();
+  TextEditingController _cidade =      new TextEditingController();
+  TextEditingController _bairro =      new TextEditingController();  
+  TextEditingController _rua =         new TextEditingController();
+  TextEditingController numero =      new TextEditingController();
+  TextEditingController complemento = new TextEditingController();
+  TextEditingController email =       new TextEditingController();
+  TextEditingController senha =       new TextEditingController();
+  TextEditingController repetirsenha = new TextEditingController();
+  
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-        //color: Color.fromARGB(255, 79, 79, 79),
-        //theme: new ThemeData(
-        //scaffoldBackgroundColor: Color.fromARGB(255, 79, 79, 79)),
+    return MaterialApp(        
         home: Scaffold(
-            //backgroundColor: Color.fromARGB(255, 79, 79, 79),
-            // GRAY COLOR ARGB = (255, 79, 79, 79)
-            appBar: AppBar(
-              title: Image.asset(
-                'imagem/salonmanager.png',
-                fit: BoxFit.cover,
-                height: 100,
-              ),
-
-              leading: IconButton(
-                onPressed: () {
-                  Navigator.of(context).push(
-                    MaterialPageRoute(builder: (context) => Inicial()),
-                  );
-                },
-                icon: Icon(Icons.home),
-                iconSize: 50,
-                color: Color.fromRGBO(254, 136, 183, 1),
-                //alignment: Alignment.topRight,
-                alignment: Alignment(-2, -2),
-              ),
-              toolbarHeight: 150,
-              centerTitle: true,
-              //backgroundColor: Color.fromARGB(255, 64, 64, 64),
-              backgroundColor: Color.fromARGB(255, 79, 79, 79),
-            ),
+            
+            appBar: _appBar(),
             body: Form(
                 child: SingleChildScrollView(
                     child: Padding(
               padding: EdgeInsets.all(20),
-              child: Column(children: [
+              child: Column(
+                children: <Widget> [
                 //Dados da empresa
                 Text(
                   'Dados da empresa',
                   textAlign: TextAlign.left,
                   style: TextStyle(fontSize: 20, fontFamily: 'Roboto'),
                 ),
-                SizedBox(
-                  height: 40,
-                  child: CustomTextField(
-                    //type: cnpj,
-                    label: 'CNPJ',
-                    icon: Icons.person,
-                  ),
-                ),
+
+                MyInputField1(hint: "CNPJ", controller: cnpj,),
+                MyInputField1(hint: "Razão Social", controller: razaosocial),
+
                 TypeSizedBox_Space_Elements(),
-                SizedBox(
-                  height: 40,
-                  child: CustomTextField(
-                    //type: razaosocial,
-                    label: 'Razão Social',
-                  ),
-                ),
 
-                TypeSizedBox_Space(),
-
-                //Endereço
                 Text(
                   'Endereço',
                   textAlign: TextAlign.left,
                   style: TextStyle(fontSize: 20, fontFamily: 'Roboto'),
                 ),
-                SizedBox(
-                  height: 40,
-                  child: CustomTextField(
-                    //type: estado,
-                    label: 'Estado',
-                  ),
+                    
+                Row(                   
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween, 
+                                          
+                  children:  [
+                        
+                    MyInputFieldCep(hint: "Cep", controller: _cep,),                          
+                    ElevatedButton.icon(
+                      onPressed: () {
+                        _consultaCep();
+                      },
+                      icon: Icon(Icons.loupe_rounded),
+                      label: Text('Consultar Cep'),
+                      style: ElevatedButton.styleFrom(
+                      primary: secundariaClr
+                      )
+                    ),
+                  ],
                 ),
-                TypeSizedBox_Space_Elements(),
-                SizedBox(
-                  height: 40,
-                  child: CustomTextField(
-                    //type: cidade,
-                    label: 'Cidade',
-                  ),
-                ),
-                TypeSizedBox_Space_Elements(),
-                SizedBox(
-                  height: 40,
-                  child: CustomTextField(
-                    //type: bairro,
-                    label: 'Bairro',
-                  ),
-                ),
-                TypeSizedBox_Space_Elements(),
-                SizedBox(
-                  height: 40,
-                  child: CustomTextField(
-                    //type: numero,
-                    label: 'Número',
-                  ),
-                ),
-                TypeSizedBox_Space_Elements(),
-                SizedBox(
-                  height: 40,
-                  child: CustomTextField(
-                    //type: complemento,
-                    label: 'Complemento',
-                  ),
-                ),
-                TypeSizedBox_Space_Elements(),
-                SizedBox(
-                  height: 40,
-                  child: CustomTextField(
-                    //type: rua,
-                    label: 'Nome da rua',
-                  ),
-                ),
-
-                TypeSizedBox_Space(),
-
+                          
+                MyInputField1(hint: "Estado", controller: _estado),
+                MyInputField1(hint: "Cidade", controller: _cidade),
+                MyInputField1(hint: "Bairro", controller: _bairro),                
+                MyInputField1(hint: "Rua", controller: _rua),
+                MyInputField1(hint: "Numero", controller: numero),
+                MyInputField1(hint: "Complemento", controller: complemento),
+              
+                 TypeSizedBox_Space_Elements(),  
                 //Login
                 Text(
                   'Login',
                   textAlign: TextAlign.left,
                   style: TextStyle(fontSize: 20, fontFamily: 'Roboto'),
                 ),
-                SizedBox(
-                  height: 40,
-                  child: CustomTextField(
-                    //type: email,
-                    label: 'E-mail',
-                  ),
-                ),
-                TypeSizedBox_Space_Elements(),
-                SizedBox(
-                  height: 40,
-                  child: CustomTextField(
-                    //type: senha,
-                    label: 'Senha',
-                  ),
-                ),
-                TypeSizedBox_Space_Elements(),
-                SizedBox(
-                  height: 40,
-                  child: CustomTextField(
-                    //type: repetirsenha,
-                    label: 'Repita a senha',
-                  ),
-                ),
-
-                TypeSizedBox_Space(),
-
+                MyInputField1(hint: "E-mail ", controller: email),
+                MyInputField1(hint: "Senha", controller: senha),
+                MyInputField1(hint: "Repita a Senha", controller: repetirsenha),
+               
+                TypeSizedBox_Space_Elements(),            
+ 
                 Builder(builder: (context) {
                   return SizedBox(
                     width: double.infinity,
@@ -193,33 +110,79 @@ class Cadastros extends StatelessWidget {
                         icon: Icon(Icons.save),
                         label: Text('Cadastrar'),
                         style: ElevatedButton.styleFrom(
-                            primary: Color.fromRGBO(254, 136, 183, 1))),
-                    // ROSE COLOR RGBO = (254, 136, 183, 1)
+                        primary: principalClr
+                        )
+                    ),                   
                   );
                 }),
-
-                // Botão
-              ]),
-            )))));
+               
+              ]
+              ),
+            )
+          )
+        )
+      )
+    );
   }
+  _consultaCep() async {
+
+    // Peguei o cep digitado
+    String cep = _cep.text;
+    
+    //configurando a url   
+    var url = Uri.https('viacep.com.br','/ws/$cep/json/');
+    
+    var response = await http.get(url); 
+
+    
+    Map<String, dynamic> retorno = json.decode(response.body);
+    String estado = retorno["uf"];
+    String cidade = retorno["localidade"];
+    String bairro = retorno["bairro"];
+    String rua = retorno["logradouro"];    
+    setState(() {
+       _cidade.text = "${cidade}";
+      _bairro.text = "${bairro}";
+      _rua.text = "${rua}";
+      _estado.text = "${estado}";
+    });
+  }    
+
 }
+
+ _appBar(){
+    return AppBar( 
+      title: Image.asset(
+        'imagem/salonmanager.png',
+        fit: BoxFit.cover,
+        height: 100,
+      ) , 
+      toolbarHeight: 100,
+      centerTitle: true,
+      elevation: 0,    
+      backgroundColor: appBarClr,
+      leading: GestureDetector(
+        onTap: (){
+            Get.back();
+          },
+          child: Icon(Icons.arrow_back_ios,
+          size: 20,
+          
+        ),
+      ),    
+    );
+  }
 
 class CustomTextField extends StatelessWidget {
   final String label;
-  final IconData? icon;
-  //final String type;
-  //final MaskTextInputFormatter mascara;
+  final IconData? icon;  
 
   const CustomTextField({Key? key, required this.label, this.icon})
       : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return TextFormField(
-      /*onChanged: (text) {
-         = text;
-        //text = type;
-      },*/
+    return TextFormField(      
       validator: (text) {
         if (text == null || text.isEmpty) {
           return 'É necessário preencher todos os campos';
@@ -228,19 +191,15 @@ class CustomTextField extends StatelessWidget {
             MaterialPageRoute(builder: (context) => Login()),
           );
         }
-      },
-      //inputFormatters: [mask],
-      cursorHeight: 15,
-      /*onChanged: (text) {
-        type = text;
-      },*/
+      },      
+      cursorHeight: 15,     
       decoration: InputDecoration(
           labelText: label,
           prefixIcon: icon == null ? null : Icon(icon),
           border: OutlineInputBorder(
               borderRadius: BorderRadius.all(Radius.circular(10.0)),
               borderSide:
-                  new BorderSide(color: Color.fromRGBO(254, 136, 183, 1))),
+                  new BorderSide(color: principalClr)),
           fillColor: Colors.white,
           filled: true),
       style: TextStyle(color: Colors.black),
@@ -250,8 +209,7 @@ class CustomTextField extends StatelessWidget {
 }
 
 class TypeSizedBox_Space extends StatelessWidget {
-  final double altura = 30;
-
+  final double altura = 10;
   @override
   Widget build(BuildContext context) {
     return SizedBox(
@@ -269,4 +227,6 @@ class TypeSizedBox_Space_Elements extends StatelessWidget {
       height: altura,
     );
   }
+
+  
 }
