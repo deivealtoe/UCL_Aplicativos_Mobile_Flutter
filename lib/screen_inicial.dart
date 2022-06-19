@@ -16,27 +16,23 @@ class Inicial extends StatelessWidget {
         child:SingleChildScrollView(
           child:Column(
             children: [
-
               MyButtonInicial(label:" Área do Cliente ", onTap: ()=>Get.to(Salao_cliente())),
-
-              SizedBox(height: 18,),
-
+              const SizedBox(height: 18,),
               MyButtonInicial(label:" Área do Estabelecimento ", onTap: ()=>Get.to(Login())),
-
             ],
-          )            
+          ),
         ),
       )
     );  
   }
 
-  _appBar(){
+  _appBar() {
     return AppBar( 
       title: Image.asset(
         'imagem/salonmanager.png',
         fit: BoxFit.cover,
         height: 100,
-      ) , 
+      ), 
       toolbarHeight: 100,
       centerTitle: true,
       elevation: 0,    
