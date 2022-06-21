@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 import 'screen_cadastro.dart';
 import 'ui/theme.dart';
 import 'widgets/input_field1.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class Login extends StatefulWidget {
   @override
@@ -13,6 +14,7 @@ class Login extends StatefulWidget {
 class _LoginState extends State<Login> {
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _senhaController = TextEditingController();
+  
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -60,7 +62,10 @@ class _LoginState extends State<Login> {
         return SizedBox(
           width: double.infinity,
           child: ElevatedButton.icon(
-            onPressed: () {
+            onPressed: () async {
+              SharedPreferences prefs = await SharedPreferences.getInstance();
+              prefs.setInt('idade', 26);
+
               Navigator.of(context).push(
                 MaterialPageRoute(builder: (context) => Cadastro()),
               );

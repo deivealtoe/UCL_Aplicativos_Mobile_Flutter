@@ -28,9 +28,7 @@ class Inicial extends StatelessWidget {
               ),
               MyButtonInicial(
                 label: " Área do Estabelecimento ",
-                onTap: () => Get.to(
-                  Login(),
-                ),
+                onTap: () => Get.to(() => Login()),
               ),
             ],
           ),

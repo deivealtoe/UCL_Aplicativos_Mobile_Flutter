@@ -5,6 +5,7 @@ import 'screen_login.dart';
 import 'ui/theme.dart';
 import 'widgets/input_field1.dart';
 import 'widgets/input_field_cep.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import 'package:http/http.dart' as http;
 
@@ -112,6 +113,9 @@ class _Cadastro extends State<Cadastro> {
                         onPressed: () async {
                           print("Clicou em Cadastrar!");
 
+                          SharedPreferences prefs = await SharedPreferences.getInstance();
+                          print(prefs.getInt('idade') ?? 0);
+
                           print("CNPJ: " + cnpj.text);
                           print("Razão Social: " + razaosocial.text);
                           print("Estado: " + _estado.text);
@@ -148,6 +152,8 @@ class _Cadastro extends State<Cadastro> {
                           Form.of(context)?.validate();
 
                           if (response.statusCode == 201) {
+                            setPrefs();
+
                             Get.to(Login());
                           }
                         },
@@ -164,6 +170,11 @@ class _Cadastro extends State<Cadastro> {
         ),
       ),
     );
+  }
+
+  void setPrefs() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.setInt('idade', 26);
   }
 
   _consultaCep() async {

@@ -3,7 +3,7 @@ import 'screen_inicial.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:get/get_navigation/src/root/get_material_app.dart';
 
-Future<void> main() async {
+Future<void> main() async { 
   runApp(const MyApp());
 }
 
