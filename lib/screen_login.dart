@@ -36,7 +36,7 @@ class _LoginState extends State<Login> {
                 ),
                 MyInputField1( hint: " Insira seu email", controller: _emailController,),
                 
-                MyInputField1( hint: " Insira sua Senha", controller: _emailController,),
+                MyInputField1( hint: " Insira sua Senha", controller: _senhaController,),
                
                 TypeSizedBox_Space_Elements(),
 

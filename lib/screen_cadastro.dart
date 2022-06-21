@@ -23,7 +23,6 @@ class _Cadastro extends State<Cadastro> {
   TextEditingController _bairro = new TextEditingController();
   TextEditingController _rua = new TextEditingController();
   TextEditingController numero = new TextEditingController();
-  TextEditingController complemento = new TextEditingController();
   TextEditingController email = new TextEditingController();
   TextEditingController senha = new TextEditingController();
   TextEditingController repetirsenha = new TextEditingController();
@@ -83,7 +82,6 @@ class _Cadastro extends State<Cadastro> {
                   MyInputField1(hint: "Bairro", controller: _bairro),
                   MyInputField1(hint: "Rua", controller: _rua),
                   MyInputField1(hint: "Numero", controller: numero),
-                  MyInputField1(hint: "Complemento", controller: complemento),
 
                   TypeSizedBox_Space_Elements(),
                   //Login
@@ -137,6 +135,10 @@ class _Cadastro extends State<Cadastro> {
                             );
 
                             print(response.statusCode);
+
+                            if (response.statusCode == 201) {
+                              Get.to(Login());
+                            }
 
                             Form.of(context)?.validate();
                           },
