@@ -105,7 +105,7 @@ class _Cadastro extends State<Cadastro> {
                       child: ElevatedButton.icon(
                           onPressed: () async {
                             print("Clicou em Cadastrar!");
-                            
+
                             print("CNPJ: " + cnpj.text);
                             print("Razão Social: " + razaosocial.text);
                             print("Estado: " + _estado.text);
@@ -118,7 +118,8 @@ class _Cadastro extends State<Cadastro> {
                             print("Senha: " + senha.text);
 
                             var response = await http.post(
-                              Uri.parse("https://monktechwebapi-asd.azurewebsites.net/api/Saloes"),
+                              Uri.parse(
+                                  "https://monktechwebapi-asd.azurewebsites.net/api/Saloes"),
                               headers: <String, String>{
                                 'Content-Type': 'application/json',
                               },

@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-
 import 'ui/theme.dart';
 
 class Salao_cliente extends StatelessWidget {
@@ -9,26 +8,24 @@ class Salao_cliente extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-        
         home: Scaffold(
-            backgroundColor: appBarClr,            
+            backgroundColor: appBarClr,
             appBar: _appBar(),
             body: Form(
                 child: SingleChildScrollView(
                     child: Padding(
               padding: EdgeInsets.all(20),
               child: Column(children: [
-               
                 Text(
-                  'Pesquise pelos salões mais próximos a você',
-                  textAlign: TextAlign.left,
+                  'Escolha um salão',
+                  textAlign: TextAlign.center,
                   style: TextStyle(
-                    fontSize: 13,
+                    fontSize: 16,
                     fontFamily: 'Roboto',
                     color: Colors.white,
                   ),
                 ),
-                Builder(builder: (context) {
+                /*Builder(builder: (context) {
                   return SizedBox(
                     width: double.maxFinite,
                     //width: max,
@@ -55,35 +52,32 @@ class Salao_cliente extends StatelessWidget {
                         )),
                    
                   );
-                }),
+                }),*/
 
                 SizedBox(
                   height: 10,
-                ),               
+                ),
               ]),
             )))));
   }
-   _appBar(){
-    return AppBar( 
+
+  _appBar() {
+    return AppBar(
       title: Image.asset(
         'imagem/salonmanager.png',
         fit: BoxFit.cover,
         height: 100,
-      ) , 
+      ),
       toolbarHeight: 100,
       centerTitle: true,
-      elevation: 0,    
+      elevation: 0,
       backgroundColor: appBarClr,
       leading: GestureDetector(
-        onTap: (){
-           Get.back();
-          },
-          child: Icon(Icons.home,
-          size: 30,
-          color: principalClr        
-                
-        ),
-      ),    
+        onTap: () {
+          Get.back();
+        },
+        child: Icon(Icons.home, size: 30, color: principalClr),
+      ),
     );
   }
 }
@@ -92,7 +86,7 @@ class CustomSearchDelegate extends SearchDelegate {
   List<String> searchTerms = [];
 
   @override
-  List<Widget>? buildActions(BuildContext context) {   
+  List<Widget>? buildActions(BuildContext context) {
     return [
       IconButton(
         onPressed: () {
@@ -104,7 +98,7 @@ class CustomSearchDelegate extends SearchDelegate {
   }
 
   @override
-  Widget? buildLeading(BuildContext context) {    
+  Widget? buildLeading(BuildContext context) {
     return IconButton(
       onPressed: () {
         close(context, null);
@@ -115,7 +109,6 @@ class CustomSearchDelegate extends SearchDelegate {
 
   @override
   Widget buildResults(BuildContext context) {
-    
     List<String> matchQuery = [];
     for (var fruit in searchTerms) {
       if (fruit.toLowerCase().contains(query.toLowerCase())) {
@@ -136,7 +129,6 @@ class CustomSearchDelegate extends SearchDelegate {
 
   @override
   Widget buildSuggestions(BuildContext context) {
-    
     List<String> matchQuery = [];
     for (var fruit in searchTerms) {
       if (fruit.toLowerCase().contains(query.toLowerCase())) {
@@ -154,5 +146,4 @@ class CustomSearchDelegate extends SearchDelegate {
       },
     );
   }
-  
 }
