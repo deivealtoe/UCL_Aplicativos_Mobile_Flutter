@@ -67,13 +67,13 @@ class _Cadastro extends State<Cadastro> {
                         controller: _cep,
                       ),
                       ElevatedButton.icon(
-                          onPressed: () {
-                            _consultaCep();
-                          },
-                          icon: Icon(Icons.loupe_rounded),
-                          label: Text('Consultar Cep'),
-                          style:
-                              ElevatedButton.styleFrom(primary: secundariaClr)),
+                        onPressed: () {
+                          _consultaCep();
+                        },
+                        icon: Icon(Icons.loupe_rounded),
+                        label: Text('Consultar Cep'),
+                        style: ElevatedButton.styleFrom(primary: secundariaClr),
+                      ),
                     ],
                   ),
 
@@ -90,10 +90,18 @@ class _Cadastro extends State<Cadastro> {
                     textAlign: TextAlign.left,
                     style: TextStyle(fontSize: 20, fontFamily: 'Roboto'),
                   ),
-                  MyInputField1(hint: "E-mail ", controller: email),
-                  MyInputField1(hint: "Senha", controller: senha),
                   MyInputField1(
-                      hint: "Repita a Senha", controller: repetirsenha),
+                    hint: "E-mail ",
+                    controller: email,
+                  ),
+                  MyInputField1(
+                    hint: "Senha",
+                    controller: senha,
+                  ),
+                  MyInputField1(
+                    hint: "Repita a Senha",
+                    controller: repetirsenha,
+                  ),
 
                   TypeSizedBox_Space_Elements(),
 
@@ -101,52 +109,52 @@ class _Cadastro extends State<Cadastro> {
                     return SizedBox(
                       width: double.infinity,
                       child: ElevatedButton.icon(
-                          onPressed: () async {
-                            print("Clicou em Cadastrar!");
+                        onPressed: () async {
+                          print("Clicou em Cadastrar!");
 
-                            print("CNPJ: " + cnpj.text);
-                            print("Razão Social: " + razaosocial.text);
-                            print("Estado: " + _estado.text);
-                            print("Cidade: " + _cidade.text);
-                            print("Bairro: " + _bairro.text);
-                            print("Rua: " + _rua.text);
-                            print("Número: " + numero.text);
-                            print("CEP: " + _cep.text);
-                            print("E-mail: " + email.text);
-                            print("Senha: " + senha.text);
+                          print("CNPJ: " + cnpj.text);
+                          print("Razão Social: " + razaosocial.text);
+                          print("Estado: " + _estado.text);
+                          print("Cidade: " + _cidade.text);
+                          print("Bairro: " + _bairro.text);
+                          print("Rua: " + _rua.text);
+                          print("Número: " + numero.text);
+                          print("CEP: " + _cep.text);
+                          print("E-mail: " + email.text);
+                          print("Senha: " + senha.text);
 
-                            var response = await http.post(
-                              Uri.parse(
-                                  "https://monktechwebapi-asd.azurewebsites.net/api/Saloes"),
-                              headers: <String, String>{
-                                'Content-Type': 'application/json',
-                              },
-                              body: jsonEncode(<String, String>{
-                                'cnpj': cnpj.text,
-                                'razaoSocial': razaosocial.text,
-                                'estado': _estado.text,
-                                'cidade': _cidade.text,
-                                'bairro': _bairro.text,
-                                'rua': _rua.text,
-                                'numero': numero.text,
-                                'cep': _cep.text,
-                                'email': email.text,
-                                'password': senha.text
-                              }),
-                            );
+                          var response = await http.post(
+                            Uri.parse(
+                                "https://monktechwebapi-asd.azurewebsites.net/api/Saloes"),
+                            headers: <String, String>{
+                              'Content-Type': 'application/json',
+                            },
+                            body: jsonEncode(<String, String>{
+                              'cnpj': cnpj.text,
+                              'razaoSocial': razaosocial.text,
+                              'estado': _estado.text,
+                              'cidade': _cidade.text,
+                              'bairro': _bairro.text,
+                              'rua': _rua.text,
+                              'numero': numero.text,
+                              'cep': _cep.text,
+                              'email': email.text,
+                              'password': senha.text
+                            }),
+                          );
 
-                            print(response.statusCode);
+                          print(response.statusCode);
 
-                            if (response.statusCode == 201) {
-                              Get.to(Login());
-                            }
+                          Form.of(context)?.validate();
 
-                            Form.of(context)?.validate();
-                          },
-                          icon: Icon(Icons.save),
-                          label: Text('Cadastrar'),
-                          style:
-                              ElevatedButton.styleFrom(primary: principalClr)),
+                          if (response.statusCode == 201) {
+                            Get.to(Login());
+                          }
+                        },
+                        icon: Icon(Icons.save),
+                        label: Text('Cadastrar'),
+                        style: ElevatedButton.styleFrom(primary: principalClr),
+                      ),
                     );
                   }),
                 ],

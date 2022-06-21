@@ -16,75 +16,92 @@ class _LoginState extends State<Login> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: _appBar(),
-        body: Form(
-            child: SingleChildScrollView(
-                child: Padding(
-          padding: EdgeInsets.all(20),
-          child: Column(children: [
-            SizedBox(
-              height: 20,
+      appBar: _appBar(),
+      body: Form(
+        child: SingleChildScrollView(
+          child: Padding(
+            padding: EdgeInsets.all(20),
+            child: Column(
+              children: [
+                SizedBox(
+                  height: 20,
+                ),
+                Text('Proprietário',
+                    style: TextStyle(
+                      fontSize: 30,
+                      color: principalClr,
+                    )),
+                SizedBox(
+                  height: 10,
+                ),
+                MyInputField1(
+                  hint: " Insira seu email",
+                  controller: _emailController,
+                ),
+                MyInputField1(
+                  hint: " Insira sua Senha",
+                  controller: _senhaController,
+                ),
+                TypeSizedBox_Space_Elements(),
+                _appButtonLogar(),
+                _appButtonEsqueciSenha(),
+                _appButtonCadastro(),
+              ],
             ),
-            Text('Proprietário',
-                style: TextStyle(
-                  fontSize: 30,
-                  color: principalClr,
-                )),
-            SizedBox(
-              height: 10,
-            ),
-            MyInputField1(
-              hint: " Insira seu email",
-              controller: _emailController,
-            ),
-            MyInputField1(
-              hint: " Insira sua Senha",
-              controller: _senhaController,
-            ),
-            TypeSizedBox_Space_Elements(),
-            _appButtonLogar(),
-            _appButtonEsqueciSenha(),
-            _appButtonCadastro(),
-          ]),
-        ))));
+          ),
+        ),
+      ),
+    );
   }
 
   _appButtonCadastro() {
-    return Builder(builder: (context) {
-      return SizedBox(
-        width: double.infinity,
-        child: ElevatedButton.icon(
+    return Builder(
+      builder: (context) {
+        return SizedBox(
+          width: double.infinity,
+          child: ElevatedButton.icon(
             onPressed: () {
               Navigator.of(context).push(
                 MaterialPageRoute(builder: (context) => Cadastro()),
               );
             },
             icon: Icon(Icons.home),
-            label: Text('Cadastrar',
-                style: TextStyle(color: Colors.black, fontSize: 15)),
-            style: ElevatedButton.styleFrom(primary: cadasClr)),
-      );
-    });
+            label: Text(
+              'Cadastrar',
+              style: TextStyle(
+                color: Colors.black,
+                fontSize: 15,
+              ),
+            ),
+            style: ElevatedButton.styleFrom(primary: cadasClr),
+          ),
+        );
+      },
+    );
   }
 
   _appButtonEsqueciSenha() {
-    return Builder(builder: (context) {
-      return SizedBox(
-        height: 25,
-        child: ElevatedButton.icon(
+    return Builder(
+      builder: (context) {
+        return SizedBox(
+          height: 25,
+          child: ElevatedButton.icon(
             onPressed: () {},
             icon: Icon(Icons.password_rounded),
             label: Text('Esqueci minha senha'),
-            style: ElevatedButton.styleFrom(primary: secundariaClr)),
-      );
-    });
+            style: ElevatedButton.styleFrom(primary: secundariaClr),
+          ),
+        );
+      },
+    );
   }
 
   _appButtonLogar() {
-    return Builder(builder: (context) {
-      return SizedBox(
-        width: double.infinity,
-        child: ElevatedButton.icon(
+    return Builder(
+      builder: (context) {
+        return SizedBox(
+          width: double.infinity,
+          child: ElevatedButton.icon(
             onPressed: () {
               Navigator.of(context).push(
                 MaterialPageRoute(builder: (context) => Agenda()),
@@ -92,9 +109,11 @@ class _LoginState extends State<Login> {
             },
             icon: Icon(Icons.login),
             label: Text('Logar'),
-            style: ElevatedButton.styleFrom(primary: principalClr)),
-      );
-    });
+            style: ElevatedButton.styleFrom(primary: principalClr),
+          ),
+        );
+      },
+    );
   }
 
   _appBar() {
