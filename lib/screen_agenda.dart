@@ -84,7 +84,7 @@ class _AgendaState extends State<Agenda> {
       margin: const EdgeInsets.only(left: 5, right: 5, top: 10),
       child: Column(
         children: [
-          Text("Salão $razaoSocial"),
+          Text("Salon - $razaoSocial"),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [

@@ -11,8 +11,16 @@ class UserSimplePreferences {
     _preferences.setInt('salaoId', salaoId);
   }
 
+  static int getSalaoId() {
+    return _preferences.getInt('salaoId')!;
+  }
+
   static setToken(String token) {
     _preferences.setString('token', token);
+  }
+
+  static String getToken() {
+    return _preferences.getString('token')!;
   }
 
   static setRazaoSocial(String razaoSocial) {

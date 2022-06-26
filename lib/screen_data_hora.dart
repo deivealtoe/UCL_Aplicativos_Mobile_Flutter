@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:app_pedrapepeltesoura/ui/theme.dart';
 import 'package:app_pedrapepeltesoura/widgets/Button.dart';
 import 'package:app_pedrapepeltesoura/widgets/input_field.dart';
@@ -7,6 +9,8 @@ import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
 import 'package:intl/locale.dart';
+import 'package:http/http.dart' as http;
+import 'utils/user_simple_preferences.dart';
 
 class DataHora extends StatefulWidget {
   const DataHora({Key? key}) : super(key: key);
@@ -21,6 +25,7 @@ class _DataHoraState extends State<DataHora> {
   String _endTime = "9:30  PM";
   String _startTime = DateFormat("hh:mm a").format(DateTime.now()).toString();
   int _selectedColor = 0;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -91,7 +96,10 @@ class _DataHoraState extends State<DataHora> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  MyButton(label: "Criar", onTap: () => _validateDate())
+                  MyButton(
+                    label: "Criar",
+                    onTap: () => _validateDate(),
+                  ),
                 ],
               ),
             ],
@@ -101,9 +109,35 @@ class _DataHoraState extends State<DataHora> {
     );
   }
 
-  _validateDate() {
-    if (_servController.text.isNotEmpty) {
-      Get.back();
+  _validateDate() async {
+    print("Data: ${_selectedDate.toString().substring(0, 10)}");
+    print("Hora início: ${_startTime}");
+    print("Hora fim: ${_endTime}");
+
+    if (!_selectedDate.isBlank! && !_startTime.isBlank! && !_endTime.isBlank!) {
+      var response = await http.post(
+        Uri.parse(
+          "https://monktechwebapi-asd.azurewebsites.net/api/Agendas",
+        ),
+        headers: <String, String>{
+          'Content-Type': 'application/json',
+          'Authorization': "Bearer ${UserSimplePreferences.getToken()}",
+        },
+        body: jsonEncode(
+          <String, dynamic>{
+            'dia': _selectedDate.toString().substring(0, 10),
+            'horaInicio': _startTime,
+            'horaFim': _endTime,
+            'salaoId': UserSimplePreferences.getSalaoId()
+          },
+        ),
+      );
+
+      print("Status code disponibilizar agenda: ${response.statusCode}");
+
+      if (response.statusCode == 201) {
+        Get.back();
+      }
     } else if (_servController.text.isEmpty) {
       Get.snackbar(
         "Obrigatorio",
@@ -157,9 +191,8 @@ class _DataHoraState extends State<DataHora> {
   _getTimeFromUser({required bool isStartTime}) async {
     var pickedTime = await _showTimePicker();
     String _formatedTime = pickedTime.format(context);
-    
-    if (pickedTime == null) {
 
+    if (pickedTime == null) {
     } else if (isStartTime == true) {
       setState(() {
         _startTime = _formatedTime;
