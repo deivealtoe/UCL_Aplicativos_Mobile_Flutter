@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'screen_agenda_cliente.dart';
 import 'screen_login.dart';
 import 'screen_saloes.dart';
 import 'ui/theme.dart';
@@ -19,7 +20,7 @@ class Inicial extends StatelessWidget {
               MyButtonInicial(
                 label: " Área do Cliente ",
                 onTap: () => Get.to(
-                  Salao_cliente(),
+                  AgendaCliente(),
                 ),
               ),
               const SizedBox(

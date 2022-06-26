@@ -1,14 +1,14 @@
 import 'dart:convert';
 
-import 'package:app_pedrapepeltesoura/screen_agenda.dart';
+import 'screen_agenda.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'screen_cadastro.dart';
 import 'ui/theme.dart';
+import 'utils/user_simple_preference.dart';
 import 'widgets/input_field1.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
-import 'utils/user_simple_preferences.dart';
 
 class Login extends StatefulWidget {
   @override

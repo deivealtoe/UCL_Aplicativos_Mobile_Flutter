@@ -1,14 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_application_8/screen_agenda_cliente.dart';
 import 'screen_inicial.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:get/get_navigation/src/root/get_material_app.dart';
-import 'utils/user_simple_preferences.dart';
+import 'utils/user_simple_preference.dart';
 
-Future<void> main() async {
+Future<void> main() async { 
   WidgetsFlutterBinding.ensureInitialized();
 
   await UserSimplePreferences.init();
-
+  
   runApp(const MyApp());
 }
 
@@ -22,7 +23,8 @@ class MyApp extends StatelessWidget {
         GlobalWidgetsLocalizations.delegate
       ],
       supportedLocales: [Locale('pt', 'BR')],
-      home: Inicial(),
+      home: AgendaCliente(),
     );
   }
 }
+

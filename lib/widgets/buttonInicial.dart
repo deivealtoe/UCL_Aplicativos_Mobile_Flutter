@@ -1,4 +1,4 @@
-import 'package:app_pedrapepeltesoura/ui/theme.dart';
+import '../ui/theme.dart';
 import 'package:flutter/material.dart';
 
 class MyButtonInicial extends StatelessWidget {

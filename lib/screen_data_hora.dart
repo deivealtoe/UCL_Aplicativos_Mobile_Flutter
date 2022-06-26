@@ -1,8 +1,9 @@
 import 'dart:convert';
 
-import 'package:app_pedrapepeltesoura/ui/theme.dart';
-import 'package:app_pedrapepeltesoura/widgets/Button.dart';
-import 'package:app_pedrapepeltesoura/widgets/input_field.dart';
+import 'ui/theme.dart';
+import 'utils/user_simple_preference.dart';
+import 'widgets/Button.dart';
+import 'widgets/input_field.dart';
 import 'package:date_picker_timeline/date_picker_timeline.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -10,7 +11,6 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
 import 'package:intl/locale.dart';
 import 'package:http/http.dart' as http;
-import 'utils/user_simple_preferences.dart';
 
 class DataHora extends StatefulWidget {
   const DataHora({Key? key}) : super(key: key);

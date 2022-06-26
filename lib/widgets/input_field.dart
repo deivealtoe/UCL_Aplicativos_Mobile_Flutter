@@ -1,4 +1,4 @@
-import 'package:app_pedrapepeltesoura/ui/theme.dart';
+import '../ui/theme.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -69,6 +69,3 @@ class MyInputField extends StatelessWidget {
     );
   }
 }
-
-
-
