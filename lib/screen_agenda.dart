@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
+import 'utils/user_simple_preferences.dart';
 
 import 'screen_data_hora.dart';
 
@@ -16,15 +17,27 @@ class Agenda extends StatefulWidget {
 }
 
 class _AgendaState extends State<Agenda> {
+  String razaoSocial = "";
+
+  @override
+  void initState() {
+    super.initState();
+
+    razaoSocial = UserSimplePreferences.getRazaoSocial();
+  }
+
   DateTime _selectedDate = DateTime.now();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: _appBar(),
-        body: Column(children: [
+      appBar: _appBar(),
+      body: Column(
+        children: [
           _addTaskBar(),
           //_addDateBar(),
-        ]));
+        ],
+      ),
+    );
   }
 
   _addDateBar() {
@@ -40,15 +53,24 @@ class _AgendaState extends State<Agenda> {
         selectedTextColor: Colors.white,
         dateTextStyle: GoogleFonts.lato(
           textStyle: const TextStyle(
-              fontSize: 20, fontWeight: FontWeight.w600, color: Colors.grey),
+            fontSize: 20,
+            fontWeight: FontWeight.w600,
+            color: Colors.grey,
+          ),
         ),
         dayTextStyle: GoogleFonts.lato(
           textStyle: const TextStyle(
-              fontSize: 16, fontWeight: FontWeight.w600, color: Colors.grey),
+            fontSize: 16,
+            fontWeight: FontWeight.w600,
+            color: Colors.grey,
+          ),
         ),
         monthTextStyle: GoogleFonts.lato(
           textStyle: const TextStyle(
-              fontSize: 14, fontWeight: FontWeight.w600, color: Colors.grey),
+            fontSize: 14,
+            fontWeight: FontWeight.w600,
+            color: Colors.grey,
+          ),
         ),
         onDateChange: (date) {
           _selectedDate = date;
@@ -60,27 +82,35 @@ class _AgendaState extends State<Agenda> {
   _addTaskBar() {
     return Container(
       margin: const EdgeInsets.only(left: 5, right: 5, top: 10),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      child: Column(
         children: [
-          Container(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  DateFormat(" d ' de 'MMM' de 'y").format(DateTime.now()),
-                  style: subHeadingStyle,
+          Text("Salão $razaoSocial"),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Container(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      DateFormat(" d ' de 'MMM' de 'y").format(DateTime.now()),
+                      style: subHeadingStyle,
+                    ),
+                    Text(
+                      'Hoje',
+                      style: HeadingStyle,
+                    )
+                  ],
                 ),
-                Text(
-                  'Hoje',
-                  style: HeadingStyle,
-                )
-              ],
-            ),
+              ),
+              MyButton(
+                label: " Disponibilizar Horário",
+                onTap: () => Get.to(
+                  const DataHora(),
+                ),
+              ),
+            ],
           ),
-          MyButton(
-              label: " Disponibilizar Horário",
-              onTap: () => Get.to(const DataHora()))
         ],
       ),
     );

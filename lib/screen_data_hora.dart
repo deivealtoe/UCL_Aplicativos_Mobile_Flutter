@@ -28,68 +28,75 @@ class _DataHoraState extends State<DataHora> {
       body: Container(
         padding: const EdgeInsets.only(left: 10, right: 10),
         child: SingleChildScrollView(
-            child: Column(children: [
-          Text(
-            "Adicione Horário",
-            style: HeadingStyle,
-          ),
-          //MyInputField(title: " Serviço ", hint: " Digite o serviço ", controller: _servController,),
-
-          MyInputField(
-            title: " Data ",
-            hint: DateFormat.yMd('pt_BR').format(_selectedDate),
-            widget: IconButton(
-              icon: Icon(Icons.calendar_today_outlined),
-              color: Colors.grey,
-              onPressed: () {
-                _getDateFromUser();
-              },
-            ),
-          ),
-          Row(
+          child: Column(
             children: [
-              Expanded(
-                  child: MyInputField(
-                title: "Hora Inicial",
-                hint: _startTime,
-                widget: IconButton(
-                  onPressed: () {
-                    _getTimeFromUser(isStartTime: true);
-                  },
-                  icon: Icon(
-                    Icons.access_time_filled_rounded,
-                    color: Colors.grey,
-                  ),
-                ),
-              )),
-              SizedBox(
-                width: 12,
+              Text(
+                "Adicione Horário",
+                style: HeadingStyle,
               ),
-              Expanded(
-                  child: MyInputField(
-                title: "Hora Final",
-                hint: _endTime,
+              //MyInputField(title: " Serviço ", hint: " Digite o serviço ", controller: _servController,),
+
+              MyInputField(
+                title: " Data ",
+                hint: DateFormat.yMd('pt_BR').format(_selectedDate),
                 widget: IconButton(
+                  icon: const Icon(Icons.calendar_today_outlined),
+                  color: Colors.grey,
                   onPressed: () {
-                    _getTimeFromUser(isStartTime: false);
+                    _getDateFromUser();
                   },
-                  icon: Icon(
-                    Icons.access_time_filled_rounded,
-                    color: Colors.grey,
-                  ),
                 ),
-              ))
+              ),
+              Row(
+                children: [
+                  Expanded(
+                    child: MyInputField(
+                      title: "Hora Inicial",
+                      hint: _startTime,
+                      widget: IconButton(
+                        onPressed: () {
+                          _getTimeFromUser(isStartTime: true);
+                        },
+                        icon: const Icon(
+                          Icons.access_time_filled_rounded,
+                          color: Colors.grey,
+                        ),
+                      ),
+                    ),
+                  ),
+                  const SizedBox(
+                    width: 12,
+                  ),
+                  Expanded(
+                    child: MyInputField(
+                      title: "Hora Final",
+                      hint: _endTime,
+                      widget: IconButton(
+                        onPressed: () {
+                          _getTimeFromUser(isStartTime: false);
+                        },
+                        icon: const Icon(
+                          Icons.access_time_filled_rounded,
+                          color: Colors.grey,
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+              const SizedBox(
+                height: 18,
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  MyButton(label: "Criar", onTap: () => _validateDate())
+                ],
+              ),
             ],
           ),
-          SizedBox(
-            height: 18,
-          ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [MyButton(label: "Criar", onTap: () => _validateDate())],
-          )
-        ])),
+        ),
       ),
     );
   }
@@ -98,11 +105,16 @@ class _DataHoraState extends State<DataHora> {
     if (_servController.text.isNotEmpty) {
       Get.back();
     } else if (_servController.text.isEmpty) {
-      Get.snackbar("Obrigatorio", " Todos os campos são obrigatorios",
-          snackPosition: SnackPosition.BOTTOM,
-          backgroundColor: appBarClr,
-          colorText: Colors.red,
-          icon: Icon(Icons.warning_amber_rounded));
+      Get.snackbar(
+        "Obrigatorio",
+        " Todos os campos são obrigatorios",
+        snackPosition: SnackPosition.BOTTOM,
+        backgroundColor: appBarClr,
+        colorText: Colors.red,
+        icon: const Icon(
+          Icons.warning_amber_rounded,
+        ),
+      );
     }
   }
 
@@ -121,7 +133,7 @@ class _DataHoraState extends State<DataHora> {
         onTap: () {
           Get.back();
         },
-        child: Icon(
+        child: const Icon(
           Icons.arrow_back_ios,
           size: 20,
         ),
@@ -145,7 +157,9 @@ class _DataHoraState extends State<DataHora> {
   _getTimeFromUser({required bool isStartTime}) async {
     var pickedTime = await _showTimePicker();
     String _formatedTime = pickedTime.format(context);
+    
     if (pickedTime == null) {
+
     } else if (isStartTime == true) {
       setState(() {
         _startTime = _formatedTime;

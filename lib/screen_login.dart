@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:app_pedrapepeltesoura/screen_agenda.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -5,6 +7,8 @@ import 'screen_cadastro.dart';
 import 'ui/theme.dart';
 import 'widgets/input_field1.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:http/http.dart' as http;
+import 'utils/user_simple_preferences.dart';
 
 class Login extends StatefulWidget {
   @override
@@ -14,7 +18,7 @@ class Login extends StatefulWidget {
 class _LoginState extends State<Login> {
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _senhaController = TextEditingController();
-  
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -22,18 +26,18 @@ class _LoginState extends State<Login> {
       body: Form(
         child: SingleChildScrollView(
           child: Padding(
-            padding: EdgeInsets.all(20),
+            padding: const EdgeInsets.all(20),
             child: Column(
               children: [
-                SizedBox(
+                const SizedBox(
                   height: 20,
                 ),
-                Text('Proprietário',
+                const Text('Proprietário',
                     style: TextStyle(
                       fontSize: 30,
                       color: principalClr,
                     )),
-                SizedBox(
+                const SizedBox(
                   height: 10,
                 ),
                 MyInputField1(
@@ -67,11 +71,11 @@ class _LoginState extends State<Login> {
               prefs.setInt('idade', 26);
 
               Navigator.of(context).push(
-                MaterialPageRoute(builder: (context) => Cadastro()),
+                MaterialPageRoute(builder: (context) => const Cadastro()),
               );
             },
-            icon: Icon(Icons.home),
-            label: Text(
+            icon: const Icon(Icons.home),
+            label: const Text(
               'Cadastrar',
               style: TextStyle(
                 color: Colors.black,
@@ -92,8 +96,8 @@ class _LoginState extends State<Login> {
           height: 25,
           child: ElevatedButton.icon(
             onPressed: () {},
-            icon: Icon(Icons.password_rounded),
-            label: Text('Esqueci minha senha'),
+            icon: const Icon(Icons.password_rounded),
+            label: const Text('Esqueci minha senha'),
             style: ElevatedButton.styleFrom(primary: secundariaClr),
           ),
         );
@@ -107,13 +111,57 @@ class _LoginState extends State<Login> {
         return SizedBox(
           width: double.infinity,
           child: ElevatedButton.icon(
-            onPressed: () {
-              Navigator.of(context).push(
-                MaterialPageRoute(builder: (context) => Agenda()),
+            onPressed: () async {
+              print("Apertei em logar!");
+              print(_emailController.text);
+              print(_senhaController.text);
+
+              var response = await http.post(
+                Uri.parse(
+                  "https://monktechwebapi-asd.azurewebsites.net/api/Contas/Login",
+                ),
+                headers: <String, String>{
+                  'Content-Type': 'application/json',
+                },
+                body: jsonEncode(
+                  <String, String>{
+                    'email': _emailController.text,
+                    'password': _senhaController.text
+                  },
+                ),
               );
+
+              print(response.statusCode);
+              print(response.body);
+
+              Form.of(context)?.validate();
+
+              if (response.statusCode == 200) {
+                int salaoId = jsonDecode(response.body)['salaoId'];
+                print(salaoId);
+                UserSimplePreferences.setSalaoId(salaoId);
+
+                String token = jsonDecode(response.body)['token'];
+                print(token);
+                UserSimplePreferences.setToken(token);
+
+                var responseSalao = await http.get(
+                  Uri.parse(
+                    "https://monktechwebapi-asd.azurewebsites.net/api/Saloes/$salaoId",
+                  ),
+                );
+
+                String razaoSocial = jsonDecode(responseSalao.body)['razaoSocial'];
+                print(razaoSocial);
+                UserSimplePreferences.setRazaoSocial(razaoSocial);
+
+                Navigator.of(context).push(
+                  MaterialPageRoute(builder: (context) => const Agenda()),
+                );
+              }
             },
-            icon: Icon(Icons.login),
-            label: Text('Logar'),
+            icon: const Icon(Icons.login),
+            label: const Text('Logar'),
             style: ElevatedButton.styleFrom(primary: principalClr),
           ),
         );
@@ -136,7 +184,11 @@ class _LoginState extends State<Login> {
         onTap: () {
           Get.back();
         },
-        child: Icon(Icons.home, size: 30, color: principalClr),
+        child: const Icon(
+          Icons.home,
+          size: 30,
+          color: principalClr,
+        ),
       ),
     );
   }
