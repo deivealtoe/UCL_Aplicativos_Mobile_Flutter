@@ -28,7 +28,7 @@ class _ScreenSaloesState extends State<ScreenSaloes> {
       itemCount: controller.todosSaloes.length,
       itemBuilder: (context, index){
         var todo = controller.todosSaloes[index];
-        var id = todo.id;
+        //var id = todo.id;
         return ListTile(   
             leading: CircleAvatar(
               child: Text(todo.endereco!.estado.toString()),
@@ -38,9 +38,8 @@ class _ScreenSaloesState extends State<ScreenSaloes> {
             trailing: Text(todo.endereco!.cidade.toString()),      
             title: Text(todo.razaoSocial.toString()),          
             subtitle: Text(todo.endereco!.bairro.toString() ),            
-            onTap:() => Get.to(
-               
-              AgendaCliente(id: id)),       
+            onTap:() => Get.to(               
+              AgendaCliente()),       
             
           );
         }

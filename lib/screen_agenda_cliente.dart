@@ -21,10 +21,10 @@ import 'screen_data_hora.dart';
 
 class AgendaCliente extends StatefulWidget {
 
-  final int? id ;
+  //final int? id ;
 
 
-  const AgendaCliente({Key? key, this.id}) : super(key: key);   
+  const AgendaCliente({Key? key,}) : super(key: key);   
 
 
   @override
@@ -34,10 +34,7 @@ class AgendaCliente extends StatefulWidget {
 class _AgendaClienteState extends State<AgendaCliente> {
   DateTime _selectedDate = DateTime.now();
 
-  final controller = AgendaController();
-
-  List<String> tod = [];
-  
+  final controller = AgendaController(); 
   
   
   TextEditingController _dia = new TextEditingController();
@@ -47,17 +44,16 @@ class _AgendaClienteState extends State<AgendaCliente> {
   // ignore: recursive_getters
   int  get id => id;
 
-  _succes(){
-    _consultaAgenda();
+  _succes(){   
     return ListView.builder(
-      itemCount: tod.length,
+      itemCount: controller.todos.length,
       itemBuilder: (context, index){
-        var todo = tod[index];
+        var todo = controller.todos[index];
         return ListTile(   
           leading: Icon(Icons.arrow_right),       
-          title: Text(tod[0]),
-          subtitle: Text(tod[1]),
-          trailing: Text(tod[2]),
+          title: Text(todo.dia.toString()),
+          subtitle: Text(todo.horaInicio.toString()),
+          trailing: Text(todo.horaFim.toString()),
           onTap:() => Get.to(  Formulario()),            
           
         );
