@@ -1,3 +1,7 @@
+import 'dart:convert';
+
+import 'package:app_pedrapepeltesoura/utils/user_simple_preference.dart';
+
 import 'screen_agenda.dart';
 import 'screen_cadastro.dart';
 import 'screen_saloes.dart';
@@ -9,6 +13,8 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'ui/theme.dart';
+
+import 'package:http/http.dart' as http;
 
 class Formulario extends StatefulWidget {
   const Formulario({Key? key}) : super(key: key);
@@ -48,10 +54,30 @@ class _FormularioState extends State<Formulario> {
                   ),
                   TypeSizedBox_Space_Elements(),
                   ElevatedButton.icon(
-                    onPressed: () async {                      
-                      Navigator.of(context).push(
-                        MaterialPageRoute(builder: (context) => ScreenSaloes()),
+                    onPressed: () async {
+                      print(nom.text);
+                      print(tel.text);
+
+                      var response = await http.put(
+                        Uri.parse(
+                            "https://monktechwebapi-asd.azurewebsites.net/api/Agendas/Agendar/${UserSimplePreferences.getAgendaId()}"),
+                        headers: <String, String>{
+                          'Content-Type': 'application/json',
+                        },
+                        body: jsonEncode(<String, dynamic>{
+                          'nomeDoCliente': nom.text,
+                          'telefoneDoCliente': tel.text
+                        }),
                       );
+
+                      print(UserSimplePreferences.getAgendaId());
+                      print("Staus code:: ${response.statusCode}");
+
+                      if (response.statusCode == 200) {
+                        Navigator.of(context).push(
+                          MaterialPageRoute(builder: (context) => ScreenSaloes()),
+                        );
+                      }
                     },
                     icon: Icon(Icons.login),
                     label: Text('Enviar'),

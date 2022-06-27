@@ -1,23 +1,14 @@
 import 'dart:convert';
-
-import 'package:flutter/rendering.dart';
-import 'package:flutter_application_8/screen_cadastro.dart';
-import 'package:flutter_application_8/screen_formulario_cliente.dart';
-import 'package:flutter_application_8/screen_saloes.dart';
-import 'package:http/http.dart';
-
+import 'package:app_pedrapepeltesoura/screen_formulario_cliente.dart';
 import 'controllers/agenda_controller.dart';
 import 'ui/theme.dart';
-import 'widgets/Button.dart';
 import 'package:date_picker_timeline/date_picker_timeline.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
-
 import 'package:http/http.dart' as http;
-
-import 'screen_data_hora.dart';
+import 'utils/user_simple_preference.dart';
 
 class AgendaCliente extends StatefulWidget {
 
@@ -51,10 +42,14 @@ class _AgendaClienteState extends State<AgendaCliente> {
         var todo = controller.todos[index];
         return ListTile(   
           leading: Icon(Icons.arrow_right),       
-          title: Text(todo.dia.toString()),
+          title: Text("${todo.dia.toString().substring(8, 10)}/${todo.dia.toString().substring(5, 7)}/${todo.dia.toString().substring(0, 4)}"),
           subtitle: Text(todo.horaInicio.toString()),
           trailing: Text(todo.horaFim.toString()),
-          onTap:() => Get.to(  Formulario()),            
+          onTap:() {
+            print(todo.id!);
+            UserSimplePreferences.setAgendaId(todo.id!);
+            Get.to(Formulario());
+          },            
           
         );
       }

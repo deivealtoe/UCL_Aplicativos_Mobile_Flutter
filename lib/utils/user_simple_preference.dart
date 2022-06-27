@@ -11,10 +11,20 @@ class UserSimplePreferences{
     _preferences.setInt('salaoId', salaoId);
   }
 
-  static  int getSalaoId(){
+  static int getSalaoId(){
     return _preferences.getInt('salaoId')!;
 
   }
+
+  static setAgendaId(int agendaId){
+    _preferences.setInt('agendaId', agendaId);
+  }
+
+  static int getAgendaId(){
+    return _preferences.getInt('agendaId')!;
+
+  }
+
   static setToken(String token){
 
     _preferences.setString('token', token);

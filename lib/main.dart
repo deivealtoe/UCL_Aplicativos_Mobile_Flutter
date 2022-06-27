@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_application_8/screen_agenda_cliente.dart';
-import 'package:flutter_application_8/screen_saloes.dart';
 import 'screen_inicial.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:get/get_navigation/src/root/get_material_app.dart';

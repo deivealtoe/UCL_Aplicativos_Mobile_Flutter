@@ -1,5 +1,5 @@
-import 'package:flutter_application_8/screen_agenda_cliente.dart';
-
+import 'package:app_pedrapepeltesoura/screen_agenda_cliente.dart';
+import 'utils/user_simple_preference.dart';
 import 'controllers/agenda_controller.dart';
 import 'screen_formulario_cliente.dart';
 import 'ui/theme.dart';
@@ -38,8 +38,10 @@ class _ScreenSaloesState extends State<ScreenSaloes> {
             trailing: Text(todo.endereco!.cidade.toString()),      
             title: Text(todo.razaoSocial.toString()),          
             subtitle: Text(todo.endereco!.bairro.toString() ),            
-            onTap:() => Get.to(               
-              AgendaCliente()),       
+            onTap: () {
+              UserSimplePreferences.setSalaoId(todo.id!);
+              Get.to(AgendaCliente());
+            },       
             
           );
         }
