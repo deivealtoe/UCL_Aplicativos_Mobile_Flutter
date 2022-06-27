@@ -1,3 +1,5 @@
+import 'dart:convert';
+import 'package:http/http.dart' as http;
 import 'package:app_salonmanager/screen_agenda.dart';
 import 'package:app_salonmanager/screen_cadastro.dart';
 import 'package:app_salonmanager/screen_saloes.dart';
@@ -93,9 +95,27 @@ class _FormularioState extends State<Formulario> {
                     print("Clicou em Cadastrar!");
                     print("Nome: " + nom.text);
                     print("Telefone: " + tel.text);
-                    Navigator.of(context).push(
-                      MaterialPageRoute(builder: (context) => Salao_cliente()),
+
+                    var response = await http.put(
+                      Uri.parse(
+                          "https://monktechwebapi-asd.azurewebsites.net/api/Agendas/Agendar/{idDoSalao}"),
+                      headers: <String, String>{
+                        'Content-Type': 'application/json',
+                      },
+                      body: jsonEncode(<String, String>{
+                        'nomeDoCliente': nom.text,
+                        'telefoneDoCliente': tel.text,
+                      }),
                     );
+
+                    print(response.statusCode);
+
+                    if (response.statusCode == 201) {
+                      Navigator.of(context).push(
+                        MaterialPageRoute(
+                            builder: (context) => Salao_cliente()),
+                      );
+                    } else {}
                   },
                   icon: Icon(Icons.login),
                   label: Text('Enviar'),
