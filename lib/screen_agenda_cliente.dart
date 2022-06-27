@@ -1,6 +1,10 @@
+import 'dart:convert';
+
+import 'package:flutter/rendering.dart';
 import 'package:flutter_application_8/screen_cadastro.dart';
 import 'package:flutter_application_8/screen_formulario_cliente.dart';
 import 'package:flutter_application_8/screen_saloes.dart';
+import 'package:http/http.dart';
 
 import 'controllers/agenda_controller.dart';
 import 'ui/theme.dart';
@@ -11,10 +15,17 @@ import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
 
+import 'package:http/http.dart' as http;
+
 import 'screen_data_hora.dart';
 
 class AgendaCliente extends StatefulWidget {
-  const AgendaCliente({Key? key}) : super(key: key);
+
+  final int? id ;
+
+
+  const AgendaCliente({Key? key, this.id}) : super(key: key);   
+
 
   @override
   State<AgendaCliente> createState() => _AgendaClienteState();
@@ -25,15 +36,28 @@ class _AgendaClienteState extends State<AgendaCliente> {
 
   final controller = AgendaController();
 
+  List<String> tod = [];
+  
+  
+  
+  TextEditingController _dia = new TextEditingController();
+  TextEditingController _horaInicio = new TextEditingController();
+  TextEditingController _horaFim = new TextEditingController();
+  
+  // ignore: recursive_getters
+  int  get id => id;
+
   _succes(){
+    _consultaAgenda();
     return ListView.builder(
-      itemCount: controller.todos.length,
+      itemCount: tod.length,
       itemBuilder: (context, index){
-        var todo = controller.todos[index];
+        var todo = tod[index];
         return ListTile(   
           leading: Icon(Icons.arrow_right),       
-          title: Text(todo.horaInicio.toString()),
-          subtitle: Text(todo.horaFim.toString()),
+          title: Text(tod[0]),
+          subtitle: Text(tod[1]),
+          trailing: Text(tod[2]),
           onTap:() => Get.to(  Formulario()),            
           
         );
@@ -85,16 +109,37 @@ class _AgendaClienteState extends State<AgendaCliente> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: _appBar(),
-        body:AnimatedBuilder(
+        body: AnimatedBuilder(
           animation: controller.state,
           builder: (context, child){
             return stateManagement(controller.state.value);
-          }, ),
-         // _addTaskBar(),
-          // _listaAgenda()
-        );    //_addDateBar(),
-        
+          },),
+    );       
+      
   }
+  _consultaAgenda() async {
+    // Peguei o cep digitado
+    int _id = id;
+
+    //configurando a url
+    var url = Uri.https('monktechwebapi-asd.azurewebsites.net', '/api/Agendas/Saloes/Disponiveis/$_id');
+
+    var response = await http.get(url);
+
+    Map<String, dynamic> retorno = json.decode(response.body);
+    String dia = retorno["dia"];
+    String horainicio = retorno["horaInicio"];
+    String horafim = retorno["horaFim"];
+    
+    setState(() {
+      
+      _dia.text = "${dia}";
+      _horaInicio.text = "${horainicio}";
+      _horaFim.text = "${horafim}";
+     
+    });
+  }
+
 
  
 
