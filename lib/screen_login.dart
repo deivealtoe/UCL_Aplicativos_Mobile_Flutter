@@ -47,6 +47,8 @@ class _LoginState extends State<Login> {
                 MyInputField1(
                   hint: " Insira sua Senha",
                   controller: _senhaController,
+                  obscuretext: true,
+                  //variavel: true,
                 ),
                 TypeSizedBox_Space_Elements(),
                 _appButtonLogar(),
@@ -151,7 +153,8 @@ class _LoginState extends State<Login> {
                   ),
                 );
 
-                String razaoSocial = jsonDecode(responseSalao.body)['razaoSocial'];
+                String razaoSocial =
+                    jsonDecode(responseSalao.body)['razaoSocial'];
                 print(razaoSocial);
                 UserSimplePreferences.setRazaoSocial(razaoSocial);
 
