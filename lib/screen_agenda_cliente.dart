@@ -1,3 +1,8 @@
+import 'package:flutter_application_8/screen_cadastro.dart';
+import 'package:flutter_application_8/screen_formulario_cliente.dart';
+import 'package:flutter_application_8/screen_saloes.dart';
+
+import 'controllers/agenda_controller.dart';
 import 'ui/theme.dart';
 import 'widgets/Button.dart';
 import 'package:date_picker_timeline/date_picker_timeline.dart';
@@ -17,27 +22,81 @@ class AgendaCliente extends StatefulWidget {
 
 class _AgendaClienteState extends State<AgendaCliente> {
   DateTime _selectedDate = DateTime.now();
+
+  final controller = AgendaController();
+
+  _succes(){
+    return ListView.builder(
+      itemCount: controller.todos.length,
+      itemBuilder: (context, index){
+        var todo = controller.todos[index];
+        return ListTile(   
+          leading: Icon(Icons.arrow_right),       
+          title: Text(todo.horaInicio.toString()),
+          subtitle: Text(todo.horaFim.toString()),
+          onTap:() => Get.to(  Formulario()),            
+          
+        );
+      }
+    );
+  }
+  _error(){
+    return Center(
+      child: ElevatedButton(
+        onPressed: () {
+          controller.start();
+        },
+        child: Text("Tentar novamente") ),
+    );
+  }
+   _loading(){
+    return Center(
+      child: CircularProgressIndicator(),
+    );
+  }
+  _start(){
+    return Container();
+  }
+
+  stateManagement(AgendaState state){
+    switch (state) {
+      case AgendaState.start:
+          return _start();
+      case AgendaState.loading:
+          return _start();
+      case AgendaState.start:
+          return _loading();
+      case AgendaState.error:
+          return _error();
+      case AgendaState.succes:
+          return _succes(); 
+        break;
+      default:
+       return _start();
+    }
+  }
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    controller.start();
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: _appBar(),
-        body:_listaAgenda(),
+        body:AnimatedBuilder(
+          animation: controller.state,
+          builder: (context, child){
+            return stateManagement(controller.state.value);
+          }, ),
          // _addTaskBar(),
           // _listaAgenda()
         );    //_addDateBar(),
         
   }
 
-  _listaAgenda(){
-    return ListView.builder(
-      itemCount: 5,
-      itemBuilder: (context, index){
-        return ListTile(          
-          title: Text(" minha lista $index"),
-        );
-      }
-    );
-  }
+ 
 
   _addDateBar() {
     return Container(

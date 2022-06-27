@@ -20,7 +20,7 @@ class Inicial extends StatelessWidget {
               MyButtonInicial(
                 label: " Área do Cliente ",
                 onTap: () => Get.to(
-                  AgendaCliente(),
+                  ScreenSaloes(),
                 ),
               ),
               const SizedBox(
