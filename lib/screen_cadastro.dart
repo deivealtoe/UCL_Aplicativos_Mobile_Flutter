@@ -98,10 +98,14 @@ class _Cadastro extends State<Cadastro> {
                   MyInputField1(
                     hint: "Senha",
                     controller: senha,
+                    obscuretext: true,
+                    //variavel: true,
                   ),
                   MyInputField1(
                     hint: "Repita a Senha",
                     controller: repetirsenha,
+                    obscuretext: true,
+                    //variavel: true,
                   ),
 
                   TypeSizedBox_Space_Elements(),
@@ -113,7 +117,8 @@ class _Cadastro extends State<Cadastro> {
                         onPressed: () async {
                           print("Clicou em Cadastrar!");
 
-                          SharedPreferences prefs = await SharedPreferences.getInstance();
+                          SharedPreferences prefs =
+                              await SharedPreferences.getInstance();
                           print(prefs.getInt('idade') ?? 0);
 
                           print("CNPJ: " + cnpj.text);
