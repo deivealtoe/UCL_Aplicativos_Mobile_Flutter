@@ -113,7 +113,8 @@ class _Cadastro extends State<Cadastro> {
                         onPressed: () async {
                           print("Clicou em Cadastrar!");
 
-                          SharedPreferences prefs = await SharedPreferences.getInstance();
+                          SharedPreferences prefs =
+                              await SharedPreferences.getInstance();
                           print(prefs.getInt('idade') ?? 0);
 
                           print("CNPJ: " + cnpj.text);
@@ -149,12 +150,14 @@ class _Cadastro extends State<Cadastro> {
 
                           print(response.statusCode);
 
-                          Form.of(context)?.validate();
-
                           if (response.statusCode == 201) {
                             setPrefs();
 
                             Get.to(Login());
+                          }
+
+                          if (response.statusCode != 201) {
+                            Form.of(context)?.validate();
                           }
                         },
                         icon: Icon(Icons.save),
@@ -234,13 +237,14 @@ class CustomTextField extends StatelessWidget {
   Widget build(BuildContext context) {
     return TextFormField(
       validator: (text) {
-        if (text == null || text.isEmpty) {
+        /*if (text == null || text.isEmpty) {
           return 'É necessário preencher todos os campos';
         } else {
           Navigator.of(context).push(
             MaterialPageRoute(builder: (context) => Login()),
           );
-        }
+        }*/
+        return 'É necessário preencher todos os campos';
       },
       cursorHeight: 15,
       decoration: InputDecoration(

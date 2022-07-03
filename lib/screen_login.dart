@@ -135,8 +135,6 @@ class _LoginState extends State<Login> {
               print(response.statusCode);
               print(response.body);
 
-              Form.of(context)?.validate();
-
               if (response.statusCode == 200) {
                 int salaoId = jsonDecode(response.body)['salaoId'];
                 print(salaoId);
@@ -152,13 +150,21 @@ class _LoginState extends State<Login> {
                   ),
                 );
 
-                String razaoSocial = jsonDecode(responseSalao.body)['razaoSocial'];
+                String razaoSocial =
+                    jsonDecode(responseSalao.body)['razaoSocial'];
                 print(razaoSocial);
                 UserSimplePreferences.setRazaoSocial(razaoSocial);
 
                 Navigator.of(context).push(
                   MaterialPageRoute(builder: (context) => const Agenda()),
                 );
+              }
+
+              print(response.statusCode);
+
+              if (response.statusCode != 200) {
+                Form.of(context)?.validate();
+                print(Form.of(context));
               }
             },
             icon: const Icon(Icons.login),
