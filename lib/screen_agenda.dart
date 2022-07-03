@@ -1,3 +1,4 @@
+import 'controllers/agenda_controller.dart';
 import 'ui/theme.dart';
 import 'utils/user_simple_preference.dart';
 import 'widgets/Button.dart';
@@ -18,12 +19,15 @@ class Agenda extends StatefulWidget {
 
 class _AgendaState extends State<Agenda> {
   String razaoSocial = "";
+   final controller = AgendaSalaoController(); 
 
   @override
   void initState() {
     super.initState();
 
     razaoSocial = UserSimplePreferences.getRazaoSocial();
+
+     controller.start();
   }
 
   DateTime _selectedDate = DateTime.now();
@@ -34,6 +38,12 @@ class _AgendaState extends State<Agenda> {
       body: Column(
         children: [
           _addTaskBar(),
+          AnimatedBuilder(              
+              animation: controller.state,
+              builder: (context, child){
+                return stateManagement(controller.state.value);
+              },
+            ),
           //_addDateBar(),
         ],
       ),
@@ -79,6 +89,60 @@ class _AgendaState extends State<Agenda> {
     );
   }
 
+  _succes(){   
+    return ListView.builder(
+      itemCount: controller.todos.length,
+      itemBuilder: (context, index){
+        var todo = controller.todos[index];
+        return  ListTile(   
+          leading: Icon(Icons.arrow_right),       
+          title: Text("${todo.dia.toString().substring(8, 10)}/${todo.dia.toString().substring(5, 7)}/${todo.dia.toString().substring(0, 4)}"),
+          subtitle: Text(todo.nomeDoCliente.toString()),
+          trailing: Text(todo.horaInicio.toString()),       
+          
+        ); 
+      }
+    );
+  }
+ 
+  _error(){
+    return Center(
+      child: ElevatedButton(
+        onPressed: () {
+          controller.start();
+        },
+        child: Text("Tentar novamente") ),
+    );
+  }
+ 
+   _loading(){
+    return Center(
+      child: CircularProgressIndicator(),
+    );
+  }
+ 
+  _start(){
+    return Container();
+  }
+
+  stateManagement(SaloesAgenState state){
+    switch (state) {
+      case SaloesAgenState.start:
+          return _start();
+      case SaloesAgenState.loading:
+          return _start();
+      case SaloesAgenState.start:
+          return _loading();
+      case SaloesAgenState.error:
+          return _error();
+      case SaloesAgenState.succes:
+          return _succes(); 
+        break;
+      default:
+       return _start();
+    }
+  }
+ 
   _addTaskBar() {
     return Container(
       margin: const EdgeInsets.only(left: 5, right: 5, top: 10),

@@ -30,3 +30,18 @@ class SaloesRepository{
     return list.map((json)=> SaloesModel.fromJson(json)).toList();
   }
 }
+class AgendaSalaoRepository{  
+
+  Future <List<TodoModel>>fetchTodos() async{
+    
+    final dio = Dio();
+    var url = 'https://monktechwebapi-asd.azurewebsites.net/api/Agendas/Saloes/${UserSimplePreferences.getSalaoId()}';
+
+    final response = await dio.get(url);
+    final list = response.data as List;
+
+    return list.map((json)=> TodoModel.fromJson(json)).toList();
+
+  
+  }
+}

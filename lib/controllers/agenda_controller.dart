@@ -1,5 +1,4 @@
 import 'package:flutter/cupertino.dart';
-
 import '../models/todo_model.dart';
 import '../repositories/todo_repository.dart';
 
@@ -23,7 +22,31 @@ class AgendaController{
 
 }
  enum AgendaState{ start, loading, succes, error}
-  enum SaloesState{ start, loading, succes, error}
+ enum SaloesState{ start, loading, succes, error}
+ enum SaloesAgenState{ start, loading, succes, error}
+
+class AgendaSalaoController{
+  List<TodoModel> todos = [];
+  final AgendaSalaoRepository _repository;  
+  final state = ValueNotifier<SaloesAgenState>(SaloesAgenState.start);
+
+  AgendaSalaoController([AgendaSalaoRepository? repository]) : _repository = repository ?? AgendaSalaoRepository();
+
+  Future  start() async{
+    
+    state.value= SaloesAgenState.loading;
+    try{
+      todos = await _repository.fetchTodos();
+      state.value = SaloesAgenState.succes;
+    } catch(e){
+      state.value = SaloesAgenState.error;
+    }
+  }  
+
+}
+
+
+
 
 class SalaoController{
   List<SaloesModel> todosSaloes = [];
@@ -44,3 +67,4 @@ class SalaoController{
   }  
 
 }
+

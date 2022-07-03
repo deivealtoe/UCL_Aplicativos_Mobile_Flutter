@@ -73,9 +73,7 @@ class _ScreenSaloesState extends State<ScreenSaloes> {
       case SaloesState.start:
           return _start();
       case SaloesState.loading:
-          return _start();
-      case SaloesState.start:
-          return _loading();
+          return _loading();     
       case SaloesState.error:
           return _error();
       case SaloesState.succes:

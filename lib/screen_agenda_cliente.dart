@@ -78,9 +78,7 @@ class _AgendaClienteState extends State<AgendaCliente> {
       case AgendaState.start:
           return _start();
       case AgendaState.loading:
-          return _start();
-      case AgendaState.start:
-          return _loading();
+          return _loading();      
       case AgendaState.error:
           return _error();
       case AgendaState.succes:
