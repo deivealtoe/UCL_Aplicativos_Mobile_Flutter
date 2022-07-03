@@ -7,7 +7,6 @@ import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
 
-
 import 'screen_data_hora.dart';
 
 class Agenda extends StatefulWidget {
@@ -85,7 +84,13 @@ class _AgendaState extends State<Agenda> {
       margin: const EdgeInsets.only(left: 5, right: 5, top: 10),
       child: Column(
         children: [
-          Text("Salon - $razaoSocial"),
+          Text("Salon - $razaoSocial",
+              style: TextStyle(
+                fontSize: 25,
+                color: Colors.pink,
+                fontFamily: 'Fantasy',
+                fontWeight: FontWeight.w900,
+              )),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
@@ -140,4 +145,3 @@ class _AgendaState extends State<Agenda> {
     );
   }
 }
-
