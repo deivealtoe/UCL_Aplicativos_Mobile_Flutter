@@ -87,7 +87,7 @@ class _AgendaState extends State<Agenda> {
           Text("Salon - $razaoSocial",
               style: TextStyle(
                 fontSize: 25,
-                color: Colors.pink,
+                color: tema,
                 fontFamily: 'Fantasy',
                 fontWeight: FontWeight.w900,
               )),
