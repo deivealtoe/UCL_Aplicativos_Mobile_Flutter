@@ -1,6 +1,9 @@
 import 'dart:convert';
 
-import 'package:app_pedrapepeltesoura/utils/user_simple_preference.dart';
+import 'package:app_salonmanager/screen_inicial.dart';
+import 'package:app_salonmanager/utils/user_simple_preference.dart';
+import 'package:flutter/foundation.dart';
+import 'package:get/get_connect/http/src/utils/utils.dart';
 
 import 'screen_agenda.dart';
 import 'screen_cadastro.dart';
@@ -24,40 +27,47 @@ class Formulario extends StatefulWidget {
 }
 
 class _FormularioState extends State<Formulario> {
-
   TextEditingController nom = new TextEditingController();
   TextEditingController tel = new TextEditingController();
-  
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: _appBar(),
-        body:Form(
+        body: Form(
           child: Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: <Widget>[
-                  Text(
-                    'Preencha suas informações:',
-                    textAlign: TextAlign.center,
-                    style: TextStyle(
-                        fontSize: 17, fontFamily: 'Roboto', color: Colors.black),
-                  ),
-                  MyInputField1(
-                    hint: "Nome",
-                    controller: nom,
-                  ),
-                  MyInputField1(
-                    hint: "Telefone",
-                    controller: tel,
-                  ),
-                  TypeSizedBox_Space_Elements(),
-                  ElevatedButton.icon(
-                    onPressed: () async {
-                      print(nom.text);
-                      print(tel.text);
+            padding: const EdgeInsets.all(8.0),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: <Widget>[
+                Text(
+                  'Preencha suas informações:',
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                      fontSize: 17, fontFamily: 'Roboto', color: Colors.black),
+                ),
+                MyInputField1(
+                  hint: "Nome",
+                  controller: nom,
+                ),
+                MyInputField1(
+                  hint: "Telefone",
+                  controller: tel,
+                ),
+                TypeSizedBox_Space_Elements(),
+                ElevatedButton.icon(
+                  onPressed: () async {
+                    print("NOM: $nom.text");
+                    print("TEL: $tel.text");
 
+                    print("n: $nom");
+
+                    if (nom.text.isEmpty || tel.text.isEmpty) {
+                      //Form.of(context)?.validate();
+
+                      print("1234566");
+                      //print(Form.of(context));
+                    } else {
                       var response = await http.put(
                         Uri.parse(
                             "https://monktechwebapi-asd.azurewebsites.net/api/Agendas/Agendar/${UserSimplePreferences.getAgendaId()}"),
@@ -75,21 +85,33 @@ class _FormularioState extends State<Formulario> {
 
                       if (response.statusCode == 200) {
                         Navigator.of(context).push(
-                          MaterialPageRoute(builder: (context) => ScreenSaloes()),
+                          MaterialPageRoute(
+                              builder: (context) => ScreenSaloes()),
                         );
                       }
-                    },
-                    icon: Icon(Icons.login),
-                    label: Text('Enviar'),
-                    style: ElevatedButton.styleFrom(primary: principalClr),
-                  ),
-                ],
-              ),
-        ), )
-          );
-    
-         
-  } 
+
+                      print(response.statusCode);
+                    }
+                  },
+                  icon: Icon(Icons.login),
+                  label: Text('Enviar'),
+                  style: ElevatedButton.styleFrom(primary: principalClr),
+                ),
+              ],
+            ),
+          ),
+        ));
+  }
+
+  _erro() {
+    return Center(
+      child: ElevatedButton(
+          onPressed: () {
+            Formulario();
+          },
+          child: Text("erro")),
+    );
+  }
 
   _appBar() {
     return AppBar(
@@ -107,6 +129,7 @@ class _FormularioState extends State<Formulario> {
           Get.back();
           print("Telefone: " + tel.text);
         },
+        //onTap: () => Get.to(() => Inicial()),
         child: const Icon(
           Icons.arrow_back_ios,
           //size: 20,

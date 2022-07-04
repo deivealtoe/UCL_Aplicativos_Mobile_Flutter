@@ -1,5 +1,5 @@
-import 'package:app_pedrapepeltesoura/ui/theme.dart';
-import 'package:app_pedrapepeltesoura/widgets/Button.dart';
+import 'package:app_salonmanager/ui/theme.dart';
+import 'package:app_salonmanager/widgets/Button.dart';
 import 'package:date_picker_timeline/date_picker_timeline.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';

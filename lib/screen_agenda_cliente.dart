@@ -1,5 +1,6 @@
 import 'dart:convert';
-import 'package:app_pedrapepeltesoura/screen_formulario_cliente.dart';
+import 'package:app_salonmanager/screen_formulario_cliente.dart';
+import 'package:app_salonmanager/screen_inicial.dart';
 import 'controllers/agenda_controller.dart';
 import 'ui/theme.dart';
 import 'package:date_picker_timeline/date_picker_timeline.dart';
@@ -11,12 +12,11 @@ import 'package:http/http.dart' as http;
 import 'utils/user_simple_preference.dart';
 
 class AgendaCliente extends StatefulWidget {
-
   //final int? id ;
 
-
-  const AgendaCliente({Key? key,}) : super(key: key);   
-
+  const AgendaCliente({
+    Key? key,
+  }) : super(key: key);
 
   @override
   State<AgendaCliente> createState() => _AgendaClienteState();
@@ -25,93 +25,98 @@ class AgendaCliente extends StatefulWidget {
 class _AgendaClienteState extends State<AgendaCliente> {
   DateTime _selectedDate = DateTime.now();
 
-  final controller = AgendaController(); 
-  
-  
+  final controller = AgendaController();
+
   TextEditingController _dia = new TextEditingController();
   TextEditingController _horaInicio = new TextEditingController();
   TextEditingController _horaFim = new TextEditingController();
-  
-  // ignore: recursive_getters
-  int  get id => id;
 
-  _succes(){   
+  // ignore: recursive_getters
+  int get id => id;
+
+  _succes() {
     return ListView.builder(
-      itemCount: controller.todos.length,
-      itemBuilder: (context, index){
-        var todo = controller.todos[index];
-        return ListTile(   
-          leading: Icon(Icons.arrow_right),       
-          title: Text("${todo.dia.toString().substring(8, 10)}/${todo.dia.toString().substring(5, 7)}/${todo.dia.toString().substring(0, 4)}"),
-          subtitle: Text(todo.horaInicio.toString()),
-          trailing: Text(todo.horaFim.toString()),
-          onTap:() {
-            print(todo.id!);
-            UserSimplePreferences.setAgendaId(todo.id!);
-            Get.to(Formulario());
-          },            
-          
-        );
-      }
-    );
+        itemCount: controller.todos.length,
+        itemBuilder: (context, index) {
+          var todo = controller.todos[index];
+          return ListTile(
+            leading: Icon(Icons.arrow_right),
+            title: Text(
+                "${todo.dia.toString().substring(8, 10)}/${todo.dia.toString().substring(5, 7)}/${todo.dia.toString().substring(0, 4)}"),
+            subtitle: Text(todo.horaInicio.toString()),
+            trailing: Text(todo.horaFim.toString()),
+            onTap: () {
+              print(todo.id!);
+              UserSimplePreferences.setAgendaId(todo.id!);
+              Get.to(Formulario());
+            },
+          );
+        });
   }
-  _error(){
+
+  _error() {
     return Center(
       child: ElevatedButton(
-        onPressed: () {
-          controller.start();
-        },
-        child: Text("Tentar novamente") ),
+          onPressed: () {
+            controller.start();
+          },
+          child: Text("Tentar novamente")),
     );
   }
-   _loading(){
+
+  _loading() {
     return Center(
       child: CircularProgressIndicator(),
     );
   }
-  _start(){
+
+  _start() {
     return Container();
   }
 
-  stateManagement(AgendaState state){
+  stateManagement(AgendaState state) {
     switch (state) {
       case AgendaState.start:
-          return _start();
+        return _start();
       case AgendaState.loading:
-          return _loading();      
+        return _loading();
       case AgendaState.error:
-          return _error();
+        return _error();
       case AgendaState.succes:
-          return _succes(); 
+        return _succes();
         break;
       default:
-       return _start();
+        return _start();
     }
   }
+
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
     controller.start();
   }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: _appBar(),
-        body: AnimatedBuilder(
-          animation: controller.state,
-          builder: (context, child){
-            return stateManagement(controller.state.value);
-          },),
-    );       
-      
+      appBar: _appBar(),
+      body: AnimatedBuilder(
+        animation: controller.state,
+        builder: (context, child) {
+          return stateManagement(controller.state.value);
+        },
+      ),
+    );
   }
+
   _consultaAgenda() async {
     // Peguei o cep digitado
     int _id = id;
 
     //configurando a url
-    var url = Uri.https('monktechwebapi-asd.azurewebsites.net', '/api/Agendas/Saloes/Disponiveis/$_id');
+    var url = Uri.https('monktechwebapi-asd.azurewebsites.net',
+        '/api/Agendas/Saloes/Disponiveis/$_id');
 
     var response = await http.get(url);
 
@@ -119,18 +124,13 @@ class _AgendaClienteState extends State<AgendaCliente> {
     String dia = retorno["dia"];
     String horainicio = retorno["horaInicio"];
     String horafim = retorno["horaFim"];
-    
+
     setState(() {
-      
       _dia.text = "${dia}";
       _horaInicio.text = "${horainicio}";
       _horaFim.text = "${horafim}";
-     
     });
   }
-
-
- 
 
   _addDateBar() {
     return Container(
@@ -182,7 +182,7 @@ class _AgendaClienteState extends State<AgendaCliente> {
                 )
               ],
             ),
-          ),         
+          ),
         ],
       ),
     );
@@ -202,6 +202,7 @@ class _AgendaClienteState extends State<AgendaCliente> {
       leading: GestureDetector(
         onTap: () {
           Get.back();
+          //onTap: () => Get.to(() => Inicial()),
         },
         child: const Icon(
           Icons.arrow_back_ios,

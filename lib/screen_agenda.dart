@@ -1,3 +1,5 @@
+import 'package:app_salonmanager/screen_cadastro.dart';
+
 import 'controllers/agenda_controller.dart';
 import 'ui/theme.dart';
 import 'utils/user_simple_preference.dart';
@@ -19,7 +21,7 @@ class Agenda extends StatefulWidget {
 
 class _AgendaState extends State<Agenda> {
   String razaoSocial = "";
-   final controller = AgendaSalaoController(); 
+  final controller = AgendaSalaoController();
 
   @override
   void initState() {
@@ -27,7 +29,7 @@ class _AgendaState extends State<Agenda> {
 
     razaoSocial = UserSimplePreferences.getRazaoSocial();
 
-     controller.start();
+    controller.start();
   }
 
   DateTime _selectedDate = DateTime.now();
@@ -38,16 +40,26 @@ class _AgendaState extends State<Agenda> {
       body: Column(
         children: [
           _addTaskBar(),
-          AnimatedBuilder(              
-              animation: controller.state,
-              builder: (context, child){
-                return stateManagement(controller.state.value);
-              },
-            ),
+          TypeSizedBox_Space_Elements(),
+          TypeSizedBox_Space_Elements(),
+          TypeSizedBox_Space_Elements(),
+          _AgendaDisponibilizar(),
           //_addDateBar(),
         ],
       ),
     );
+  }
+
+  _AgendaDisponibilizar() {
+    return Container(
+        height: 500,
+        //width: 10,
+        child: AnimatedBuilder(
+          animation: controller.state,
+          builder: (context, child) {
+            return stateManagement(controller.state.value);
+          },
+        ));
   }
 
   _addDateBar() {
@@ -89,60 +101,102 @@ class _AgendaState extends State<Agenda> {
     );
   }
 
-  _succes(){   
+  _succes() {
     return ListView.builder(
-      itemCount: controller.todos.length,
-      itemBuilder: (context, index){
-        var todo = controller.todos[index];
-        return  ListTile(   
-          leading: Icon(Icons.arrow_right),       
-          title: Text("${todo.dia.toString().substring(8, 10)}/${todo.dia.toString().substring(5, 7)}/${todo.dia.toString().substring(0, 4)}"),
-          subtitle: Text(todo.nomeDoCliente.toString()),
-          trailing: Text(todo.horaInicio.toString()),       
-          
-        ); 
-      }
-    );
+        itemCount: controller.todos.length,
+        itemBuilder: (context, index) {
+          var todo = controller.todos[index];
+          /*return ListTile(
+            leading: Icon(Icons.arrow_right),
+            title: Text(
+                "${todo.dia.toString().substring(8, 10)}/${todo.dia.toString().substring(5, 7)}/${todo.dia.toString().substring(0, 4)}"),
+            subtitle: Text(todo.nomeDoCliente.toString()),
+            trailing: Text(todo.horaInicio.toString()),
+          );*/
+
+          return Container(
+            padding: const EdgeInsets.only(left: 10, right: 10),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: <Widget>[
+                TypeSizedBox_Space_Elements(),
+                TypeSizedBox_Space_Elements(),
+                Text(
+                  todo.nomeDoCliente.toString(),
+                  textAlign: TextAlign.left,
+                  style: TextStyle(
+                    fontSize: 23,
+                    fontWeight: FontWeight.w600,
+                  ),
+                ),
+                Text(
+                  todo.telefoneDoCliente.toString(),
+                  style: TextStyle(fontSize: 20),
+                ),
+                Text(
+                  "${todo.dia.toString().substring(8, 10)}/${todo.dia.toString().substring(5, 7)}/${todo.dia.toString().substring(0, 4)}, ",
+                  style: TextStyle(fontSize: 15),
+                ),
+                Row(
+                  children: [
+                    Text(
+                      todo.horaInicio.toString(),
+                      style: TextStyle(fontSize: 15),
+                    ),
+                    Text(" - "),
+                    Text(
+                      todo.horaFim.toString(),
+                      style: TextStyle(fontSize: 15),
+                    ),
+                    Container(
+                      child: Column(children: []),
+                    )
+                  ],
+                )
+              ],
+            ),
+          );
+        });
   }
- 
-  _error(){
+
+  _error() {
     return Center(
       child: ElevatedButton(
-        onPressed: () {
-          controller.start();
-        },
-        child: Text("Tentar novamente") ),
+          onPressed: () {
+            controller.start();
+          },
+          child: Text("Tentar novamente")),
     );
   }
- 
-   _loading(){
+
+  _loading() {
     return Center(
       child: CircularProgressIndicator(),
     );
   }
- 
-  _start(){
+
+  _start() {
     return Container();
   }
 
-  stateManagement(SaloesAgenState state){
+  stateManagement(SaloesAgenState state) {
     switch (state) {
       case SaloesAgenState.start:
-          return _start();
+        return _start();
       case SaloesAgenState.loading:
-          return _start();
+        return _start();
       case SaloesAgenState.start:
-          return _loading();
+        return _loading();
       case SaloesAgenState.error:
-          return _error();
+        return _error();
       case SaloesAgenState.succes:
-          return _succes(); 
+        return _succes();
         break;
       default:
-       return _start();
+        return _start();
     }
   }
- 
+
   _addTaskBar() {
     return Container(
       margin: const EdgeInsets.only(left: 5, right: 5, top: 10),
@@ -166,10 +220,10 @@ class _AgendaState extends State<Agenda> {
                       DateFormat(" d ' de 'MMM' de 'y").format(DateTime.now()),
                       style: subHeadingStyle,
                     ),
-                    Text(
+                    /*Text(
                       'Hoje',
                       style: HeadingStyle,
-                    )
+                    )*/
                   ],
                 ),
               ),

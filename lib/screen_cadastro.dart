@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:app_salonmanager/screen_inicial.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'screen_login.dart';
@@ -153,7 +154,7 @@ class _Cadastro extends State<Cadastro> {
                           if (response.statusCode == 201) {
                             setPrefs();
 
-                            Get.to(Login());
+                            Get.to(Inicial());
                           }
 
                           if (response.statusCode != 201) {

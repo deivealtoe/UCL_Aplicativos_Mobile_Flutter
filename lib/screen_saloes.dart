@@ -1,4 +1,5 @@
-import 'package:app_pedrapepeltesoura/screen_agenda_cliente.dart';
+import 'package:app_salonmanager/screen_agenda_cliente.dart';
+import 'package:app_salonmanager/screen_inicial.dart';
 import 'utils/user_simple_preference.dart';
 import 'controllers/agenda_controller.dart';
 import 'screen_formulario_cliente.dart';
@@ -23,87 +24,86 @@ class _ScreenSaloesState extends State<ScreenSaloes> {
   DateTime _selectedDate = DateTime.now();
   final controller = SalaoController();
 
-  _succes(){
+  _succes() {
     return ListView.builder(
-      itemCount: controller.todosSaloes.length,
-      itemBuilder: (context, index){
-        var todo = controller.todosSaloes[index];
-        //var id = todo.id;
-        return ListTile(   
+        itemCount: controller.todosSaloes.length,
+        itemBuilder: (context, index) {
+          var todo = controller.todosSaloes[index];
+          //var id = todo.id;
+          return ListTile(
             leading: CircleAvatar(
               child: Text(todo.endereco!.estado.toString()),
               backgroundColor: principalClr,
-              
-            ), 
-            trailing: Text(todo.endereco!.cidade.toString()),      
-            title: Text(todo.razaoSocial.toString()),          
-            subtitle: Text(todo.endereco!.bairro.toString() ),            
+            ),
+            trailing: Text(todo.endereco!.cidade.toString()),
+            title: Text(todo.razaoSocial.toString()),
+            subtitle: Text(todo.endereco!.bairro.toString()),
             onTap: () {
               UserSimplePreferences.setSalaoId(todo.id!);
               Get.to(AgendaCliente());
-            },       
-            
+            },
           );
-        }
-      );
-    }
-      
-    
-  
-  _error(){
+        });
+  }
+
+  _error() {
     return Center(
       child: ElevatedButton(
-        onPressed: () {
-          controller.start();
-        },
-        child: Text("Tentar novamente") ),
+          onPressed: () {
+            controller.start();
+          },
+          child: Text("Tentar novamente")),
     );
   }
-   _loading(){
+
+  _loading() {
     return Center(
       child: CircularProgressIndicator(),
     );
   }
-  _start(){
+
+  _start() {
     return Container();
   }
 
-  stateManagement(SaloesState state){
+  stateManagement(SaloesState state) {
     switch (state) {
       case SaloesState.start:
-          return _start();
+        return _start();
       case SaloesState.loading:
-          return _loading();     
+        return _loading();
       case SaloesState.error:
-          return _error();
+        return _error();
       case SaloesState.succes:
-          return _succes(); 
+        return _succes();
         break;
       default:
-       return _start();
+        return _start();
     }
   }
+
   @override
   void initState() {
-   
     super.initState();
     controller.start();
   }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: _appBar(),
-        body:AnimatedBuilder(
-          animation: controller.state,
-          builder: (context, child){
-            return stateManagement(controller.state.value);
-          }, ),
-         // _addTaskBar(),
-          // _listaAgenda()
-        );    //_addDateBar(),
-        
+      appBar: _appBar(),
+      body: AnimatedBuilder(
+        animation: controller.state,
+        builder: (context, child) {
+          return stateManagement(controller.state.value);
+        },
+      ),
+      // _addTaskBar(),
+      // _listaAgenda()
+    ); //_addDateBar(),
   }
-   _appBar() {
+
+  _appBar() {
     return AppBar(
       title: Image.asset(
         'imagem/salonmanager.png',
@@ -115,9 +115,10 @@ class _ScreenSaloesState extends State<ScreenSaloes> {
       elevation: 0,
       backgroundColor: appBarClr,
       leading: GestureDetector(
-        onTap: () {
+        /*onTap: () {
           Get.back();
-        },
+        },*/
+        onTap: () => Get.to(() => Inicial()),
         child: const Icon(
           Icons.arrow_back_ios,
           size: 20,
@@ -125,5 +126,4 @@ class _ScreenSaloesState extends State<ScreenSaloes> {
       ),
     );
   }
-
 }
