@@ -67,38 +67,3 @@ class MyInputField1 extends StatelessWidget {
     );
   }
 }
-
-/*class CustomTextField extends StatelessWidget {
-  final String label;
-  final IconData? icon;
-
-  const CustomTextField({Key? key, required this.label, this.icon})
-      : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return TextFormField(
-      validator: (text) {
-        /*if (text == null || text.isEmpty) {
-          return 'É necessário preencher todos os campos';
-        } else {
-          Navigator.of(context).push(
-            MaterialPageRoute(builder: (context) => Login()),
-          );
-        }*/
-        return 'É necessário preencher todos os campos';
-      },
-      cursorHeight: 15,
-      decoration: InputDecoration(
-          labelText: label,
-          prefixIcon: icon == null ? null : Icon(icon),
-          border: OutlineInputBorder(
-              borderRadius: BorderRadius.all(Radius.circular(10.0)),
-              borderSide: new BorderSide(color: principalClr)),
-          fillColor: Colors.white,
-          filled: true),
-      style: TextStyle(color: Colors.black),
-      cursorColor: Colors.black,
-    );
-  }
-}*/
